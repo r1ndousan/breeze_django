@@ -1,0 +1,52 @@
+.catalog {
+    padding: 0px 60px 60px;
+
+    &__filters {
+        display: flex;
+        flex-direction: column;
+        padding-left: 100px;
+        row-gap: 15px;
+        margin-bottom: 50px;
+
+        &-search {
+            display: flex;
+        }
+
+        &-cat-sort {
+            display: flex;
+            column-gap: 30px;
+        }
+
+        &-price {
+            display: flex;
+            justify-self: start;
+            column-gap: 30px;
+            margin-bottom: 10px;
+
+            &--field {
+                display: flex;
+                column-gap: 10px;
+            }
+        }
+    }
+
+    &__input {
+        width: 850px;
+    }
+
+    &__body {
+        display: flex;
+        align-items: center;
+        column-gap: 40px;
+        margin-bottom: 50px;
+    }
+
+    &__list {
+        row-gap: 30px;
+    }
+
+    &__pagination {
+        display: flex;
+        justify-content: center;
+    }
+}

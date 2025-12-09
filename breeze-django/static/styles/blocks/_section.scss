@@ -1,0 +1,32 @@
+.section {
+  &__header, 
+  &__header-blue {
+    column-gap: 40px;
+    row-gap: 30px;
+    padding: 45px 60px 60px;
+
+    &-blue {
+      background-color: var(--color-light-blue);
+    }
+  }
+
+  &__description {
+    max-width: 580px;
+  }
+
+  &-gradient {
+    background: linear-gradient(var(--color-light-blue) 50%, var(--color-light) 50%);
+  }
+
+  &-blue {
+    background-color: var(--color-light-blue);
+  }
+}
+
+.header {
+  &-center {
+    display: flex;
+    justify-content: center;
+    background-color: var(--color-light-blue);
+  }
+}

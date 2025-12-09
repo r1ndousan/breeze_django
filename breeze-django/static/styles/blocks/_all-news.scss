@@ -1,0 +1,35 @@
+.all-news {
+    background: linear-gradient( var(--color-light-blue) 50%, var(--color-light) 50%);
+    padding: 0px 60px 60px;
+
+    &__selection {
+        display: flex;
+        justify-content: center;
+        column-gap: 50px;
+        padding-inline: 100px;
+        margin-bottom: 45px;
+
+        &-inputs {
+            display: flex;
+            column-gap: 40px;
+        }
+    }
+
+    &__main {
+        display: flex;
+        justify-content: space-between;
+        padding-inline: 80px;
+        align-items: center;
+        column-gap: 30px;
+        margin-bottom: 40px;
+    }
+
+    &__input {
+        width: 600px;
+    }
+
+    &__pagination {
+        display: flex;
+        justify-content: center;
+    }
+}

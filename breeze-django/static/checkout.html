@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" 
+        content="width=device-width, user-scalable=no, initial-scale=1.0 maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="./styles/styles.css">
+    <title>Breeze</title>
+</head>
+<body>
+    <header class="header">
+        <div class="header__inner container">
+            <div class="header__logo">
+                <a href="/index.html" class="header__logo logo">
+                    <img 
+                        src="../static/images/logo.png" 
+                        alt="" 
+                        class="logo__image none"
+                        width="90" height="60" loading="lazy"
+                    >
+                </a>
+                <h2 class="header__logo-title">breeze</h2>
+            </div>
+            <nav class="header__menu">
+                <ul class="header__menu-list">
+                    <li class="header__menu-item">
+                        <a href="./index.html" class="header__menu-link">Главная</a>
+                    </li>
+                    <li class="header__menu-item">
+                        <a href="../static/all-news.html" class="header__menu-link">Новости</a>
+                    </li>
+                    <li class="header__menu-item">
+                        <a href="../static/catalog.html" class="header__menu-link">Каталог</a>
+                    </li>
+                    <li class="header__menu-item">
+                        <a href="../static/cart.html" class="header__menu-link">Корзина</a>
+                    </li>
+                    <li class="header__menu-item">
+                        <a href="../static/checkout.html" class="header__menu-link">Мои заказы</a>
+                    </li>
+                    <li class="header__menu-item">
+                        <a href="../static/orders.html" class="header__menu-link">Заказы</a>
+                    </li>
+                    <li class="header__menu-item">
+                        <a href="../static/contacts.html" class="header__menu-link">Контакты</a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="header__auth">
+                <a 
+                    class="header__button button button-login" 
+                    type="button-class"
+                    href="/breeze-django/static/log-in.html"
+                >
+                    Войти
+                </a>
+                <a 
+                    class="header__button button button-signup" 
+                    type="button-class"
+                    href="/breeze-django/static/sign-up.html"
+                >
+                    Регистрация
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="content">
+        <section class="section container section-blue">
+            <header class="section__header header-center">
+                <h1 class="section__title h2"> Мои заказы</h1>
+            </header>
+            <div class="section__body">
+                <div class="orders">
+                    <div class="order">
+                        <div class="order__info">
+                            <div class="order__info-card">
+                                <div><strong>ID заказа:</strong> {{ order.id }}</div>
+                                <div><strong>Дата заказа:</strong> {{ order.date }}</div>
+                                <div><strong>Адрес доставки:</strong> {{ order.address }}</div>
+                                <div><strong>Способ оплаты:</strong> {{ order.payment_method }}</div>
+                                <div><strong>Итого:</strong> {{ order.total }} ₽</div>
+                                <div><strong>Статус заказа:</strong> {{ order.status }}</div>
+                            </div>
+                            <div class="order__info-products">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Название</th>
+                                            <th>Кол-во</th>
+                                            <th>Стоимость</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for item in order.items.all %}
+                                        <tr>
+                                            <td>{{ item.name }}</td>
+                                            <td>{{ item.quantity }}</td>
+                                            <td>{{ item.price }} ₽</td>
+                                        </tr>
+                                        {% empty %}
+                                        <tr>
+                                            <td colspan="3">Нет товаров</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="order__interactive">
+                            <button 
+                                class="order-page__button button button-delete"
+                                type="submit"
+                            >
+                                Удалить
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer container">
+        <div class="footer__inner">
+            <div class="footer__body">
+                <div class="footer__logo">
+                    <a href="/index.html" class="footer__logo logo">
+                        <img 
+                            src="../static/images/logo.png" 
+                            alt="" 
+                            class="logo__image none"
+                            width="80" height="60" loading="lazy"
+                        >
+                        <p class="h3">breeze</p>
+                    </a>
+                </div>
+                <div class="footer__body-menu">
+                    <div class="footer__nav">
+                        <h3 class="footer__title">Навигация</h3>
+                        <nav class="footer__menu">
+                            <ul class="footer__menu-list">
+                                <li class="footer__menu-item">
+                                    <a href="/index.html" class="footer__menu-link">Главная</a>
+                                </li>
+                                <li class="footer__menu-item">
+                                    <a href="../static/catalog.html" class="footer__menu-link">Каталог</a>
+                                </li>
+                                <li class="footer__menu-item">
+                                    <a href="../static/all-news.html" class="footer__menu-link">Новости</a>
+                                </li>
+                                <li class="footer__menu-item">
+                                    <a href="../static/contacts.html" class="footer__menu-link">Контакты</a>
+                                </li>
+                                <li class="footer__menu-item">
+                                    <a href="../static/cart.html" class="header__menu-link">Корзина</a>
+                                </li>
+                                <li class="footer__menu-item">
+                                    <a href="../static/checkout.html" class="header__menu-link">Мои заказы</a>
+                                </li>
+                                <li class="footer__menu-item">
+                                    <a href="../static/orders.html" class="header__menu-link">Заказы</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                    <div class="footer__contacts">
+                        <h3 class="footer__title">Контакты</h3>
+                        <address class="footer__contacts-body">
+                            <p>Email: <a href="mailto:info@positivus.com">info@breezeparfume.com</a></p>
+                            <p>Телефон: <a href="tel:5555678901">555-567-8901</a></p>
+                            <p>
+                                Адрес: 1234 <br/>
+                                Москва, ул. Ленина, д.1
+                            </p>
+                        </address>
+                    </div>
+                </div>
+            </div>
+            <div class="footer__extra">
+                <p>©<time datetime="2025">2025</time> Парфюмерная мастерская "breeze".</p>
+                <p>Сайт разработан студенткой Бирюковой Д.С. в рамках курсового проекта</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

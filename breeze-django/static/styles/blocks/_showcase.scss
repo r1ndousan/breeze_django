@@ -1,0 +1,26 @@
+.showcase {
+    display: flex;
+    background-color: var(--color-light-blue);
+
+    &__inner {
+        display: flex;
+        column-gap: 150px;
+        width: 100%;
+        padding: 60px;
+    }
+
+    &__body {
+        display: flex;
+        flex-direction: column;
+        row-gap: 30px;
+        padding-left: 100px;
+    }
+
+    &__description {
+        font-size: 24px;
+    }
+
+    &__image {
+        margin-bottom: -150px;
+    }
+}

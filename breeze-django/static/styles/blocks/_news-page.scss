@@ -1,0 +1,41 @@
+.news-page {
+    padding: 40px 60px;
+    background-color: var(--color-light-blue);
+
+    &__buttons {
+        display: flex;
+        column-gap: 200px;
+        margin-bottom: 30px;
+
+        &-admin {
+            display: flex;
+            column-gap: 30px;
+        }
+    }
+
+    &__body {
+        display: flex;
+        justify-content: space-between;
+        column-gap: 40px;
+    }
+
+    &__title {
+        padding-inline: 50px;
+        margin-bottom: 20px;
+    }
+
+    &__description {
+        width: 650px;
+        text-indent: 20px;
+    }
+
+    &__extra {
+        display: flex;
+        flex-direction: column;
+        row-gap: 20px;
+    }
+
+    &__date {
+        padding-left: 15px;
+    }
+}

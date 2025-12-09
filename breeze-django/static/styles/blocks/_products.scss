@@ -1,0 +1,30 @@
+.products {
+    &__inner {
+        padding-inline: 60px;
+        padding-bottom: 60px;
+    }
+
+    &__list {
+        display: flex;
+        justify-content: center;
+        column-gap: 60px;
+    }
+
+    &-card {
+        display: flex;
+        flex-direction: column;
+        row-gap: 15px;
+        align-items: center;
+        padding: 15px 10px;
+
+        &__image {
+            border-radius: var(--border-radius);
+            border: var(--border);
+        }
+
+        &:hover {
+            filter: brightness(0.8);
+            text-decoration: underline;
+        }
+    }
+}

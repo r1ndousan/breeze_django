@@ -1,0 +1,10 @@
+.news-card {
+    &__body {
+        padding: 10px;
+        row-gap: 10px;
+    }
+
+    &__date {
+        opacity: 0.7;
+    }
+}

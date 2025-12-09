@@ -1,0 +1,40 @@
+.orders {
+    padding: 0px 100px 60px;
+}
+
+.order {
+    padding: 40px;
+    background-color: var(--color-light);
+    border: var(--border);
+    border-radius: var(--border-radius-large);
+
+    &__table th, tr {
+        display: flex;
+        flex-direction: column;
+    }
+
+    &__info {
+        display: flex;
+        justify-content: space-between;
+        padding-right: 80px;
+        margin-bottom: 30px;
+
+        &-card {
+            display: flex;
+            flex-direction: column;
+            row-gap: 5px;
+        }
+    }
+
+    &__interactive {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        &-status {
+            display: flex;
+            align-items: center;
+            column-gap: 20px;
+        }
+    }
+}

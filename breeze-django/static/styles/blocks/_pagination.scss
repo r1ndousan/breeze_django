@@ -1,0 +1,25 @@
+.pagination {
+    &__list {
+        display: flex;
+        column-gap: 10px;       
+    }
+
+    &__button {
+        @include reset-button;
+        @include flex-center;
+        @include square(24px);
+
+        border-radius: 50%;
+        background-color: var(--color-dark);
+
+        &:hover {
+            background-color: var(--color-blue);
+            border: 3px solid var(--color-dark);
+        }
+
+        &.is-current {
+            background-color: var(--color-blue);
+            border: 3px solid var(--color-dark);
+        }
+    }
+}

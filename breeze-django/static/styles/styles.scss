@@ -1,0 +1,32 @@
+@import 
+    'normalize',
+    'fonts',
+    'mixins',
+    'variables',
+    'utils',
+    'globals'; 
+
+
+@import 
+    'blocks/header',
+    'blocks/button',
+    'blocks/input',
+    'blocks/section',
+    'blocks/pagination',
+    'blocks/showcase',
+    'blocks/products',
+    'blocks/news',
+    'blocks/grid',
+    'blocks/news-card',
+    'blocks/contacts',
+    'blocks/all-news',
+    'blocks/news-page',
+    'blocks/product-card',
+    'blocks/catalog',
+    'blocks/product-page',
+    'blocks/orders',
+    'blocks/cart',
+    'blocks/delivery',
+    'blocks/sign-up',
+    'blocks/log-in',
+    'blocks/footer';

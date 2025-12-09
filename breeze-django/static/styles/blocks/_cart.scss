@@ -1,0 +1,55 @@
+.cart {
+    padding: 0 100px 60px;
+
+    &-card {
+        display: flex;
+        column-gap: 40px;
+        padding-block: 40px;
+
+        border-bottom: var(--border);
+
+        &__info {
+            display: flex;
+            column-gap: 200px;
+            padding: 10px;
+
+            &-left {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+            }
+
+            &-list {
+                display: flex;
+                justify-self: center;
+                column-gap: 30px;
+                padding-top: 10px;
+            }
+
+            &-item {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                row-gap: 10px;
+            }
+        }
+
+        &__count-input {
+            display: flex;
+            justify-items: center;
+            width: 80px;
+            padding: 10px;
+        }
+
+        & label {
+            cursor: text;
+        }
+    }
+
+    &__summary {
+        display: flex;
+        justify-content: end;
+        padding: 30px;
+        font-size: 28px;
+    }
+}

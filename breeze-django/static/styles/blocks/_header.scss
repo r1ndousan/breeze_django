@@ -1,0 +1,48 @@
+.header {
+    &__inner {
+        padding-inline: 30px;
+    }
+
+    &__logo {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        padding-right: 20px;
+    }
+
+    &__inner {
+        display: flex;
+        justify-content: space-between;
+        height: 100%;
+        background-color: var(--color-blue);
+        color: var(--color-dark);
+    }
+    
+    &__menu {
+        display: flex;
+        align-items: center;
+        padding: 30px;
+
+        &-list{
+            display: flex;
+            justify-content: center;
+
+            column-gap: 30px;
+            font-size: 18px;
+        }
+        
+        &-item {
+            &:hover {
+                color: var(--color-light);
+            }
+        }
+    }
+
+    &__auth {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        column-gap: 30px;
+        padding: 25px;
+    }
+}

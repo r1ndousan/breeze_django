@@ -1,0 +1,12 @@
+.product-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 10px;
+
+    &__info {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+}

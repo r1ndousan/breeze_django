@@ -1,0 +1,32 @@
+.delivery {
+    padding: 0 100px 100px;
+
+    &__list {
+        display: flex;
+        flex-direction: column;
+        row-gap: 50px;       
+        margin-bottom: 30px;
+    }
+
+    &__item {
+        display: flex;
+        align-items: center;
+        column-gap: 30px;
+        padding: 0 100px 30px 10px;
+
+        &:not(:last-child) {
+            border-bottom: var(--border);
+        }
+    }
+
+    &__info {
+        &-input {
+            width: 700px;
+        }
+    }
+
+    &__button-order {
+        display: flex;
+        justify-content: end;
+    }
+}

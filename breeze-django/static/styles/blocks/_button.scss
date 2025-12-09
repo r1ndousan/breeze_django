@@ -1,0 +1,70 @@
+.button {
+    @include flex-center;
+
+    height: var(--button-height);
+    padding: 15px 30px;
+    background-color: var(--color-dark);
+    color: var(--color-light);
+    border: var(--border);
+    border-radius: var(--border-radius-small);
+    font-size: 18px;
+
+    &:hover {
+        background-color: var(--color-light);
+        color: var(--color-dark);
+    }
+
+    &-signup {
+        background-color: var(--color-dark);
+        color: var(--color-light);
+
+        &:hover {
+            background-color: var(--color-light-blue);
+        }
+    }
+
+    &-login {
+        background-color: var(--color-light);
+        color: var(--color-dark);
+
+        &:hover {
+            background-color: var(--color-light-blue);
+        }
+    }
+
+    &-white {
+        background-color: var(--color-light);
+        color: var(--color-dark);
+
+        &:hover {
+            background-color: var(--color-dark);
+            color: var(--color-light);
+        }
+    }
+
+    &-blue {
+        background-color: var(--color-blue);
+        color: var(--color-dark);
+
+        &:hover {
+            background-color: var(--color-light-blue);
+        }
+    }
+
+    &-arrow {
+        padding: 40px 25px;
+
+        &:hover {
+            background-color: var(--color-blue);
+        }
+    }
+
+    &-order {
+        padding: 30px 50px;
+        font-size: 28px;
+
+        &:hover {
+            background-color: var(--color-light-blue);
+        }
+    }
+}
