@@ -357,6 +357,10 @@ h4, .h4 {
   background-color: var(--color-light);
   color: var(--color-dark);
 }
+.button:active {
+  transform: translateY(3px);
+  transition-duration: var(--transition-duration);
+}
 .button-signup {
   background-color: var(--color-dark);
   color: var(--color-light);
@@ -650,6 +654,9 @@ h4, .h4 {
 .contacts__body-description a:hover {
   color: var(--color-blue);
 }
+.contacts__body-description a:active {
+  color: var(--color-light);
+}
 
 .all-news {
   background: linear-gradient(var(--color-light-blue) 50%, var(--color-light) 50%);
@@ -736,12 +743,15 @@ h4, .h4 {
 }
 
 .catalog {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   padding: 0px 60px 60px;
 }
 .catalog__filters {
   display: flex;
   flex-direction: column;
-  padding-left: 100px;
+  align-self: center;
   row-gap: 15px;
   margin-bottom: 50px;
 }
@@ -750,20 +760,25 @@ h4, .h4 {
 }
 .catalog__filters-cat-sort {
   display: flex;
+  justify-content: center;
   -moz-column-gap: 30px;
        column-gap: 30px;
 }
 .catalog__filters-price {
   display: flex;
-  justify-self: start;
+  justify-content: center;
   -moz-column-gap: 30px;
        column-gap: 30px;
   margin-bottom: 10px;
 }
 .catalog__filters-price--field {
   display: flex;
+  align-items: center;
   -moz-column-gap: 10px;
        column-gap: 10px;
+}
+.catalog__filters-button {
+  padding-left: 50px;
 }
 .catalog__input {
   width: 850px;
@@ -1051,6 +1066,9 @@ h4, .h4 {
 }
 .footer__body-menu a:hover {
   color: var(--color-light);
+}
+.footer__body-menu a:active {
+  color: var(--color-light-blue);
 }
 .footer__title {
   margin-bottom: 12px;
