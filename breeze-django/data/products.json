@@ -1,0 +1,202 @@
+[
+  {
+    "id": 1,
+    "name": "Роза Моно — 30ml",
+    "slug": "roza-mono-30",
+    "price": 59.00,
+    "category": "Моно-ароматы",
+    "image": "images/roza-mono-30.jpg",
+    "description": "Чистая и бархатная роза, подчёркнутая лёгким мускусом.",
+    "created_at": "2025-01-10"
+  },
+  {
+    "id": 2,
+    "name": "Цитрус Бриз — 30ml",
+    "slug": "citrus-breeze-30",
+    "price": 49.50,
+    "category": "Моно-ароматы",
+    "image": "images/citrus-breeze-30.jpg",
+    "description": "Свежий цитрусовый букет с нотами бергамота и мандарина.",
+    "created_at": "2025-02-05"
+  },
+  {
+    "id": 3,
+    "name": "Лаванда Ночь — 50ml",
+    "slug": "lavanda-noch-50",
+    "price": 69.00,
+    "category": "Моно-ароматы",
+    "image": "images/lavanda-noch-50.jpg",
+    "description": "Глубокая лаванда с лёгкой фоново-древесной базой.",
+    "created_at": "2025-03-12"
+  },
+  {
+    "id": 4,
+    "name": "Оуд и Роза — 50ml",
+    "slug": "oud-i-roza-50",
+    "price": 89.99,
+    "category": "Авторские композиции",
+    "image": "images/oud-roza-50.jpg",
+    "description": "Авторская композиция — тёплый уда с бархатной розой.",
+    "created_at": "2025-04-01"
+  },
+  {
+    "id": 5,
+    "name": "Амбер Мист — 50ml",
+    "slug": "amber-mist-50",
+    "price": 74.00,
+    "category": "Популярные композиции",
+    "image": "images/amber-mist-50.jpg",
+    "description": "Популярный амбровый шлейф с ванильными нюансами.",
+    "created_at": "2025-03-20"
+  },
+  {
+    "id": 6,
+    "name": "Ванильное Утро — 100ml",
+    "slug": "vanilnoe-utro-100",
+    "price": 129.00,
+    "category": "Популярные композиции",
+    "image": "images/vanilnoe-utro-100.jpg",
+    "description": "Тёплая ваниль с карамельными акцентами, очень мягкий.",
+    "created_at": "2025-05-05"
+  },
+  {
+    "id": 7,
+    "name": "Морская Соль — 30ml",
+    "slug": "morskaya-sol-30",
+    "price": 42.50,
+    "category": "Моно-ароматы",
+    "image": "images/morskaya-sol-30.jpg",
+    "description": "Свежесть моря: соль, водяные ноты и лёгкая зелень.",
+    "created_at": "2025-06-11"
+  },
+  {
+    "id": 8,
+    "name": "Шипр и Береза — 50ml",
+    "slug": "shipr-i-bereza-50",
+    "price": 82.00,
+    "category": "Авторские композиции",
+    "image": "images/shipr-bereza-50.jpg",
+    "description": "Необычная авторская смесь шипра и древесных акцентов берёзы.",
+    "created_at": "2025-06-20"
+  },
+  {
+    "id": 9,
+    "name": "Корица и Мёд — 50ml",
+    "slug": "koritsa-i-myod-50",
+    "price": 65.00,
+    "category": "Популярные композиции",
+    "image": "images/koritsa-med-50.jpg",
+    "description": "Тёплая пряная композиция с мягким мёдово-специевым акцентом.",
+    "created_at": "2025-07-01"
+  },
+  {
+    "id": 10,
+    "name": "Белый Мускус — 50ml",
+    "slug": "belyi-muskus-50",
+    "price": 55.00,
+    "category": "Моно-ароматы",
+    "image": "images/belyi-muskus-50.jpg",
+    "description": "Чистый и лёгкий мускус для ежедневного использования.",
+    "created_at": "2025-07-15"
+  },
+  {
+    "id": 11,
+    "name": "Табак и Тёмный Шоколад — 50ml",
+    "slug": "tabak-shokolad-50",
+    "price": 92.00,
+    "category": "Авторские композиции",
+    "image": "images/tabak-shokolad-50.jpg",
+    "description": "Глубокая, многослойная композиция с табачными и шоколадными нотами.",
+    "created_at": "2025-08-03"
+  },
+  {
+    "id": 12,
+    "name": "Цветущий Апельсин — 30ml",
+    "slug": "cvetuschiy-apelsin-30",
+    "price": 46.00,
+    "category": "Популярные композиции",
+    "image": "images/cvet-apelsin-30.jpg",
+    "description": "Цветочно-цитрусовая композиция: апельсиновый цвет и мёд.",
+    "created_at": "2025-08-20"
+  },
+  {
+    "id": 13,
+    "name": "Иланг-иланг — 30ml",
+    "slug": "ilang-ilang-30",
+    "price": 52.00,
+    "category": "Моно-ароматы",
+    "image": "images/ilang-ilang-30.jpg",
+    "description": "Экзотический иланг-иланг в чистом исполнении.",
+    "created_at": "2025-09-05"
+  },
+  {
+    "id": 14,
+    "name": "Бергамот и Ладан — 50ml",
+    "slug": "bergamot-i-ladan-50",
+    "price": 78.50,
+    "category": "Авторские композиции",
+    "image": "images/bergamot-ladan-50.jpg",
+    "description": "Контраст Bergamot-ladan: свежесть и дымная глубина.",
+    "created_at": "2025-09-18"
+  },
+  {
+    "id": 15,
+    "name": "Сandida — Цветочная смесь — 50ml",
+    "slug": "candida-50",
+    "price": 71.00,
+    "category": "Популярные композиции",
+    "image": "images/candida-50.jpg",
+    "description": "Популярная цветочная композиция с акцентом на жасмин и пион.",
+    "created_at": "2025-10-02"
+  },
+  {
+    "id": 16,
+    "name": "Кедровый Ветер — 100ml",
+    "slug": "kedrovyj-veter-100",
+    "price": 139.00,
+    "category": "Авторские композиции",
+    "image": "images/kedrovy-veter-100.jpg",
+    "description": "Мощный древесный аккорд: кедр, смолы и сухая амбра.",
+    "created_at": "2025-10-28"
+  },
+  {
+    "id": 17,
+    "name": "Лимонная Сага — 30ml",
+    "slug": "limonnaya-saga-30",
+    "price": 44.00,
+    "category": "Моно-ароматы",
+    "image": "images/limonnaya-saga-30.jpg",
+    "description": "Яркий лимонный акцент для бодрого утра.",
+    "created_at": "2025-11-10"
+  },
+  {
+    "id": 18,
+    "name": "Шелковая Амбра — 50ml",
+    "slug": "shelkovaya-ambra-50",
+    "price": 95.00,
+    "category": "Популярные композиции",
+    "image": "images/shelkovaya-ambra-50.jpg",
+    "description": "Мягкая амбра с шёлковым шлейфом — бестселлер.",
+    "created_at": "2025-11-25"
+  },
+  {
+    "id": 19,
+    "name": "Смородина и Мята — 30ml",
+    "slug": "smorodina-myata-30",
+    "price": 48.00,
+    "category": "Моно-ароматы",
+    "image": "images/smorodina-myata-30.jpg",
+    "description": "Яркая фруктово-мятная нота для летних дней.",
+    "created_at": "2025-12-01"
+  },
+  {
+    "id": 20,
+    "name": "Ночной Сад — 50ml",
+    "slug": "nochnoy-sad-50",
+    "price": 110.00,
+    "category": "Авторские композиции",
+    "image": "images/nochnoy-sad-50.jpg",
+    "description": "Интенсивная авторская смесь с ночными белыми цветами и специями.",
+    "created_at": "2025-12-05"
+  }
+]

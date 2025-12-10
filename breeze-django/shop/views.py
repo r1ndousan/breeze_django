@@ -9,30 +9,15 @@ from decimal import Decimal
 # BASE_DIR — верхняя папка проекта (breeze-django/)
 BASE_DIR = Path(__file__).resolve().parent.parent
 DATA_FILE = BASE_DIR / 'data' / 'products.json'
+DATA_NEWS = BASE_DIR / 'data' / 'news.json'
 
-
-# ---------- Загрузка товаров (из data/products.json) ----------
 def load_products():
-    """
-    Попытаться загрузить список товаров из data/products.json.
-    Если файл не найден — возвращаем небольшой набор тестовых товаров.
-    """
-    try:
-        with open(DATA_FILE, 'r', encoding='utf-8') as f:
-            data = json.load(f)
-            # Ожидаем, что это список словарей с полями id, name, slug, price, image, description...
-            return data
-    except FileNotFoundError:
-        # Минимальные тестовые данные для разработки
-        return [
-            {"id": 1, "name": "Rose & Oud — 50ml", "slug": "rose-oud-50", "price": 89.99,
-             "image": "images/showcase_1.jpg", "description": "Деревянно-пряный аромат с нотами розы."},
-            {"id": 2, "name": "Citrus Breeze — 30ml", "slug": "citrus-breeze-30", "price": 49.99,
-             "image": "images/showcase_2.jpg", "description": "Свежий цитрусовый аромат."},
-            {"id": 3, "name": "Amber Mist — 50ml", "slug": "amber-mist-50", "price": 69.99,
-             "image": "images/showcase_3.jpg", "description": "Тёплый амбровый шлейф."}
-        ]
+    with open(DATA_PRODUCTS, 'r', encoding='utf-8') as f:
+        return json.load(f)
 
+def load_news():
+    with open(DATA_NEWS, 'r', encoding='utf-8') as f:
+        return json.load(f)
 
 # ---------- Утилиты для корзины (сессия) ----------
 def _get_cart_from_session(request):

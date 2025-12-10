@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" 
+        content="width=device-width, user-scalable=no, initial-scale=1.0 maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/breeze-django/static/styles/styles.css">
+    <title>Breeze - Корзина</title>
+</head>
+<body>
+    <header class="header">
+        <div class="header__inner container">
+            <div class="header__logo">
+                <a href="/index.html" class="header__logo logo">
+                    <img 
+                        src="../static/images/logo.png" 
+                        alt="" 
+                        class="logo__image none"
+                        width="90" height="60" loading="lazy"
+                    >
+                </a>
+                <h2 class="header__logo-title">breeze</h2>
+            </div>
+            <nav class="header__menu">
+                <ul class="header__menu-list">
+                    <li class="header__menu-item">
+                        <a href="./index.html" class="header__menu-link">Главная</a>
+                    </li>
+                    <li class="header__menu-item">
+                        <a href="../static/all-news.html" class="header__menu-link">Новости</a>
+                    </li>
+                    <li class="header__menu-item">
+                        <a href="../static/catalog.html" class="header__menu-link">Каталог</a>
+                    </li>
+                    <li class="header__menu-item">
+                        <a href="../static/cart.html" class="header__menu-link">Корзина</a>
+                    </li>
+                    <li class="header__menu-item">
+                        <a href="../static/checkout.html" class="header__menu-link">Мои заказы</a>
+                    </li>
+                    <li class="header__menu-item">
+                        <a href="../static/orders.html" class="header__menu-link">Заказы</a>
+                    </li>
+                    <li class="header__menu-item">
+                        <a href="../static/contacts.html" class="header__menu-link">Контакты</a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="header__auth">
+                <a 
+                    class="header__button button button-login" 
+                    type="button-class"
+                    href="/breeze-django/static/log-in.html"
+                >
+                    Войти
+                </a>
+                <a 
+                    class="header__button button button-signup" 
+                    type="button-class"
+                    href="/breeze-django/static/sign-up.html"
+                >
+                    Регистрация
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="content">
+        <section class="section container section-blue">
+            <header class="section__header header-center">
+                <h1 class="section__title h2">Корзина</h1>
+            </header>
+            <div class="section__body">
+                <div class="cart">
+                    <ul class="cart-cards_list">
+                        <li class="cart-cards_item">
+                            <div class="cart-card">
+                                <img 
+                                    src="../static/images/catalog/product1.jpg" 
+                                    alt="" 
+                                    class="cart-card__image"
+                                    width="250" height="250" loading="lazy"
+                                >
+                                <div class="cart-card__info">
+                                    <div class="cart-card__info-left">
+                                        <h3 class="cart-card__title">Название товара</h3>
+                                        <p class="categorie">Категория</p>
+                                        <button 
+                                            class="cart-card__button button button-delete"
+                                            type="button"
+                                        >
+                                            Удалить
+                                        </button>
+                                    </div>
+                                    <ul class="cart-card__info-list">
+                                        <li class="cart-card__info-item">
+                                            <label for="price" class="cart-card__price">Цена, ₽</label>
+                                            <p id="price" class="cart-card__price">55555</p>
+                                        </li>
+                                        <li class="cart-card__info-item">
+                                            <label for="count" class="cart-card__count">Количество</label>
+                                            <input 
+                                                type="numeric"
+                                                class="cart-card__count-input input"
+                                                id="count"
+                                                placeholder="шт"
+                                            >
+                                        </li>
+                                        <li class="cart-card__info-item">
+                                            <label for="amount" class="cart-card__info-amount">Стоимость</label>
+                                            <p id="amount" class="cart-card__amount">65464</p>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="cart-cards_item">
+                            <div class="cart-card">
+                                <img 
+                                    src="../static/images/catalog/product1.jpg" 
+                                    alt="" 
+                                    class="cart-card__image"
+                                    width="250" height="250" loading="lazy"
+                                >
+                                <div class="cart-card__info">
+                                    <div class="cart-card__info-left">
+                                        <h3 class="cart-card__title">Название товара</h3>
+                                        <p class="categorie">Категория</p>
+                                        <button 
+                                            class="cart-card__button button button-delete"
+                                            type="button"
+                                        >
+                                            Удалить
+                                        </button>
+                                    </div>
+                                    <ul class="cart-card__info-list">
+                                        <li class="cart-card__info-item">
+                                            <label for="price" class="cart-card__price">Цена, ₽</label>
+                                            <p id="price" class="cart-card__price">55555</p>
+                                        </li>
+                                        <li class="cart-card__info-item">
+                                            <label for="count" class="cart-card__count">Количество</label>
+                                            <input 
+                                                type="numeric"
+                                                class="cart-card__count-input input"
+                                                id="count"
+                                                placeholder="шт"
+                                            >
+                                        </li>
+                                        <li class="cart-card__info-item">
+                                            <label for="amount" class="cart-card__info-amount">Стоимость</label>
+                                            <p id="amount" class="cart-card__amount">65464</p>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="cart__summary">
+                        <span>Итого:</span>
+                        <p>9999</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="section container">
+            <header class="section__header header">
+                <h2 class="section__title h3">Детали доставки</h1>
+            </header>
+            <div class="section__body">
+                <div class="delivery">
+                    <ul class="delivery__list">
+                        <li class="delivery__item">
+                            <label for="radio-courier" class="visually-hidden">Отправка курьером</label>
+                            <input id="radio-courier" type="radio" class="delivery__info-radio radio" name="delivery" value="courier">
+                            <h4 class="delivery__info-title">Курьер:</h4>
+                            <label for="address1" class="visually-hidden">Введите адрес</label>
+                            <input 
+                                type="text"
+                                class="delivery__info-input input"
+                                id="address1"
+                                placeholder="Введите адрес"
+                            >
+                            <p>Стоимость доставки: 500₽</p>
+                        </li>
+                        <li class="delivery__item">
+                            <label for="radio-mail" class="visually-hidden">Отправка почтой</label>
+                            <input id="radio-mail" type="radio" class="delivery__info-radio radio" name="delivery" value="mail">
+                            <h4 class="delivery__info-title">Почта:</h4>
+                            <label for="address2" class="visually-hidden">Введите адрес</label>
+                            <input 
+                                id="address2"
+                                type="text"
+                                class="delivery__info-input input"
+                                placeholder="Введите адрес"
+                            >
+                            <p>Стоимость доставки: 300₽</p>
+                        </li>
+                        <li class="delivery__item">
+                            <label for="radio-pickup" class="visually-hidden">Самовывоз</label>
+                            <input id="radio-pickup" type="radio" class="delivery__info-radio radio" name="delivery" value="pickup" checked required>
+                            <h4 class="delivery__info-title">Самовывоз:</h4>
+                            <address> 
+                                <p>
+                                    Адрес: 1234 Москва, ул. Ленина, д.1
+                                </p>
+                            </address>
+                        </li>
+                    </ul>
+                    <div class="delivery__button-order">
+                        <button 
+                            class="cart-card__button button button-order"
+                            type="submit"
+                        >
+                            Оформить заказ
+                        </button>
+                    </div> 
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer container">
+        <div class="footer__inner">
+            <div class="footer__body">
+                <div class="footer__logo">
+                    <a href="/index.html" class="footer__logo logo">
+                        <img 
+                            src="../static/images/logo.png" 
+                            alt="" 
+                            class="logo__image none"
+                            width="80" height="60" loading="lazy"
+                        >
+                        <p class="h3">breeze</p>
+                    </a>
+                </div>
+                <div class="footer__body-menu">
+                    <div class="footer__nav">
+                        <h3 class="footer__title">Навигация</h3>
+                        <nav class="footer__menu">
+                            <ul class="footer__menu-list">
+                                <li class="footer__menu-item">
+                                    <a href="/index.html" class="footer__menu-link">Главная</a>
+                                </li>
+                                <li class="footer__menu-item">
+                                    <a href="../static/catalog.html" class="footer__menu-link">Каталог</a>
+                                </li>
+                                <li class="footer__menu-item">
+                                    <a href="../static/all-news.html" class="footer__menu-link">Новости</a>
+                                </li>
+                                <li class="footer__menu-item">
+                                    <a href="../static/contacts.html" class="footer__menu-link">Контакты</a>
+                                </li>
+                                <li class="footer__menu-item">
+                                    <a href="../static/cart.html" class="header__menu-link">Корзина</a>
+                                </li>
+                                <li class="footer__menu-item">
+                                    <a href="../static/checkout.html" class="header__menu-link">Мои заказы</a>
+                                </li>
+                                <li class="footer__menu-item">
+                                    <a href="../static/orders.html" class="header__menu-link">Заказы</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                    <div class="footer__contacts">
+                        <h3 class="footer__title">Контакты</h3>
+                        <address class="footer__contacts-body">
+                            <p>Email: <a href="mailto:info@positivus.com">info@breezeparfume.com</a></p>
+                            <p>Телефон: <a href="tel:5555678901">555-567-8901</a></p>
+                            <p>
+                                Адрес: 1234 <br/>
+                                Москва, ул. Ленина, д.1
+                            </p>
+                        </address>
+                    </div>
+                </div>
+            </div>
+            <div class="footer__extra">
+                <p>©<time datetime="2025">2025</time> Парфюмерная мастерская "breeze".</p>
+                <p>Сайт разработан студенткой Бирюковой Д.С. в рамках курсового проекта</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

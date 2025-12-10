@@ -1,0 +1,18 @@
+{% load static %}
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>{% block title %}Breeze{% endblock %}</title>
+  <link rel="stylesheet" href="{% static '/breeze-django/static/styles/styles.css' %}">
+  {% block head %}{% endblock %}
+</head>
+<body>
+  {% include 'shop/templates/header.html' %}
+  <main>{% block content %}{% endblock %}</main>
+  {% include 'shop/templates/footer.html' %}
+  <script src="{% static 'js/main.js' %}" defer></script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>
