@@ -3,10 +3,10 @@
         <div class="footer__inner">
             <div class="footer__body">
                 <div class="footer__logo">
-                    <a href="/index.html" class="footer__logo logo">
+                    <a href="{% url 'shop:index' %}" class="footer__logo logo">
                         <img 
-                            src="../static/images/logo.png" 
-                            alt="" 
+                            src="{% static 'images/logo.png' %}" 
+                            alt="breeze" 
                             class="logo__image none"
                             width="80" height="60" loading="lazy"
                         >
@@ -19,25 +19,25 @@
                         <nav class="footer__menu">
                             <ul class="footer__menu-list">
                                 <li class="footer__menu-item">
-                                    <a href="/index.html" class="footer__menu-link">Главная</a>
+                                    <a href="{% url 'shop:index' %}" class="footer__menu-link">Главная</a>
                                 </li>
                                 <li class="footer__menu-item">
-                                    <a href="../static/catalog.html" class="footer__menu-link">Каталог</a>
+                                    <a href="{% url 'shop:catalog' %}" class="footer__menu-link">Каталог</a>
                                 </li>
                                 <li class="footer__menu-item">
-                                    <a href="../static/all-news.html" class="footer__menu-link">Новости</a>
+                                    <a href="{% url 'shop:all_news' %}" class="footer__menu-link">Новости</a>
                                 </li>
                                 <li class="footer__menu-item">
-                                    <a href="../static/contacts.html" class="footer__menu-link">Контакты</a>
+                                    <a href="{% url 'shop:contacts' %}" class="footer__menu-link">Контакты</a>
                                 </li>
                                 <li class="footer__menu-item">
-                                    <a href="../static/cart.html" class="header__menu-link">Корзина</a>
+                                    <a href="{% url 'shop:cart' %}" class="header__menu-link">Корзина</a>
                                 </li>
                                 <li class="footer__menu-item">
-                                    <a href="../static/checkout.html" class="header__menu-link">Мои заказы</a>
+                                    <a href="{% url 'shop:checkout' %}" class="header__menu-link">Мои заказы</a>
                                 </li>
                                 <li class="footer__menu-item">
-                                    <a href="../static/orders.html" class="header__menu-link">Заказы</a>
+                                    <a href="{% url 'shop:orders' %}" class="header__menu-link">Заказы</a>
                                 </li>
                             </ul>
                         </nav>

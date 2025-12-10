@@ -1,4 +1,5 @@
 {% extends 'shop/base.html' %}
+{% load static %}
 
 {% block title %}Breeze — Главная{% endblock %}
 
@@ -18,7 +19,7 @@
                             </div>
                         </div>
                         <img 
-                            src="/breeze-django/static/images/header-image.png" 
+                            src="{% static 'images/header-image.png' %}" 
                             alt="" 
                             class="showcase__image none"
                             width="900" height="700" loading="lazy"
@@ -39,8 +40,8 @@
                             <li class="products__item">
                                 <a class="products-card" href="/breeze-django/shop/templates/catalog.html">
                                     <img 
-                                        src="/breeze-django/static/images/showcase_1.jpg" 
-                                        alt="" 
+                                        src="{% static 'images/showcase_1.jpg' %}" 
+                                        alt="Моно-ароматы" 
                                         class="products-card__image"
                                         width="250" height="380" loading="lazy"
                                     >
@@ -50,8 +51,8 @@
                             <li class="products__item">
                                 <a class="products-card" href="/breeze-django/shop/templates/catalog.html">
                                     <img 
-                                        src="/breeze-django/static/images/showcase_2.jpg" 
-                                        alt="" 
+                                        src="{% static 'images/showcase_2.jpg' %}" 
+                                        alt="Авторские композиции" 
                                         class="products-card__image"
                                         width="250" height="380" loading="lazy"
                                     >
@@ -61,8 +62,8 @@
                             <li class="products__item">
                                 <a class="products-card" href="/breeze-django/shop/templates/catalog.html">
                                     <img 
-                                        src="/breeze-django/static/images/showcase_3.jpg" 
-                                        alt="" 
+                                        src="{% static 'images/showcase_3.jpg' %}" 
+                                        alt="Популярные композиции" 
                                         class="products-card__image"
                                         width="250" height="380" loading="lazy"
                                     >

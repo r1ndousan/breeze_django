@@ -2,10 +2,10 @@
 <header class="header">
         <div class="header__inner container">
             <div class="header__logo">
-                <a href="/breeze-django/shop/templates/shop/index.html" class="header__logo logo">
+                <a href="{% url 'shop:index' %}" class="header__logo logo">
                     <img 
-                        src="/breeze-django/static/images/logo.png" 
-                        alt="" 
+                        src="{% static 'images/logo.png' %}" 
+                        alt="breeze" 
                         class="logo__image none"
                         width="90" height="60" loading="lazy"
                     >
@@ -15,43 +15,47 @@
             <nav class="header__menu">
                 <ul class="header__menu-list">
                     <li class="header__menu-item">
-                        <a href="/breeze-django/shop/templates/shop/index.html" class="header__menu-link">Главная</a>
+                        <a href="{% url 'shop:index' %}" class="header__menu-link">Главная</a>
                     </li>
                     <li class="header__menu-item">
-                        <a href="/breeze-django/shop/templates/shop/all-news.html" class="header__menu-link">Новости</a>
+                        <a href="{% url 'shop:all_news' %}" class="header__menu-link">Новости</a>
                     </li>
                     <li class="header__menu-item">
-                        <a href="/breeze-django/shop/templates/shop/catalog.html" class="header__menu-link">Каталог</a>
+                        <a href="{% url 'shop:catalog' %}" class="header__menu-link">Каталог</a>
                     </li>
                     <li class="header__menu-item">
-                        <a href="/breeze-django/shop/templates/shop/cart.html" class="header__menu-link">Корзина</a>
+                        <a href="{% url 'shop:cart' %}" class="header__menu-link">Корзина</a>
                     </li>
                     <li class="header__menu-item">
-                        <a href="/breeze-django/shop/templates/shop/checkout.html" class="header__menu-link">Мои заказы</a>
+                        <a href="{% url 'shop:checkout' %}" class="header__menu-link">Мои заказы</a>
                     </li>
                     <li class="header__menu-item">
-                        <a href="/breeze-django/shop/templates/shop/orders.html" class="header__menu-link">Заказы</a>
+                        <a href="{% url 'shop:orders' %}" class="header__menu-link">Заказы</a>
                     </li>
                     <li class="header__menu-item">
-                        <a href="/breeze-django/shop/templates/shop/contacts.html" class="header__menu-link">Контакты</a>
+                        <a href="{% url 'shop:contacts' %}" class="header__menu-link">Контакты</a>
                     </li>
                 </ul>
             </nav>
             <div class="header__auth">
+                {& if user.is_authenticated &}
+                    <!-- дописать -->
+
                 <a 
                     class="header__button button button-login" 
                     type="button-class"
-                    href="/breeze-django/shop/templates/shop/log-in.html"
+                    href=""
                 >
                     Войти
                 </a>
                 <a 
                     class="header__button button button-signup" 
                     type="button-class"
-                    href="/breeze-django/shop/templates/shop/sign-up.html"
+                    href=""
                 >
                     Регистрация
                 </a>
+
             </div>
         </div>
 </header>

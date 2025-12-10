@@ -1,19 +1,19 @@
 {% load static %}
-<!doctype html>
-<html lang="ru">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>{% block title %}Breeze{% endblock %}</title>
-  <link rel="stylesheet" href="{% static 'styles/styles.css' %}">
-    <script src="{% static 'js/main.js' %}" defer></script>
-  {% block head %}{% endblock %}
-</head>
-<body>
-  {% include 'shop/header.html' %}
-  {% block content %}{% endblock %}
-  {% include 'shop/footer.html' %}
+  <!doctype html>
+  <html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>{% block title %}Breeze{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'styles/styles.css' %}">
+      <script src="{% static 'js/main.js' %}" defer></script>
+    {% block head %}{% endblock %}
+  </head>
+  <body>
+    {% include 'shop/header.html' %}
+    {% block content %}{% endblock %}
+    {% include 'shop/footer.html' %}
 
-  {% block scripts %}{% endblock %}
-</body>
-</html>
+    {% block scripts %}{% endblock %}
+  </body>
+  </html>

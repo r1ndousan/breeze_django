@@ -58,8 +58,10 @@ def _cart_items_with_products(cart_dict):
 # ---------- Views ----------
 
 def index(request):
-
     return render(request, 'shop/index.html')
+
+def all_news(request):
+    return render(request, 'shop/all-news.html')
 
 
 def catalog(request):
@@ -180,3 +182,12 @@ def remove_from_cart(request, product_id):
         return JsonResponse({'success': True, 'cart_count': sum(i['qty'] for i in items), 'cart_total': str(total)})
 
     return redirect('shop:cart')
+
+def checkout(request):
+    return render(request, 'shop/checkout.html')
+
+def orders(request):
+    return render(request, 'shop/orders.html')
+
+def contacts(request):
+    return render(request, 'shop/contacts.html')
