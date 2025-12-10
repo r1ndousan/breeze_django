@@ -5,8 +5,8 @@
     <meta name="viewport" 
         content="width=device-width, user-scalable=no, initial-scale=1.0 maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="./styles/styles.css">
-    <title>Breeze - Товар</title>
+    <link rel="stylesheet" href="/breeze-django/static/styles/styles.css">
+    <title>Breeze - Новость</title>
 </head>
 <body>
     <header class="header">
@@ -67,61 +67,48 @@
     </header>
 
     <main class="content">
-        <section class="section container section-blue">
+        <section class="section container">
             <div class="section__body">
-                <div class="product-page">
-                    <div class="product-page__buttons">
+                <div class="news-page">
+                    <div class="news-page__buttons">
                         <a 
-                            class="product-page__button button button-white"
-                            href="../static/catalog.html"
+                            class="news-page__button button button-white"
+                            href="../static/all-news.html"
                         >
                             Назад
                         </a>
-                        <div class="product-page__buttons-admin">
+                        <div class="news-page__buttons-admin">
                             <button 
-                            class="product-page__button button button-edit"
+                            class="news-page__button button button-edit"
                             type="submit"
                             >
                                 Редактировать
                             </button>
                             <button 
-                                class="product-page__button button button-delete"
+                                class="news-page__button button button-delete"
                                 type="submit"
                             >
                                 Удалить
                             </button>
                         </div>
                     </div>
-                    <div class="product-page__body">
-                        <img 
-                            src="/images/catalog/product1.jpg" 
-                            alt="" 
-                            class="product-page__image"
-                            width="500" height="400" loading="lazy"
-                        >
-                        <div class="product-page__text">            
-                            <div class="product-page__text-inner">
-                                <h1 class="product-page__title h2">
-                                    <p>Название товара</p>
-                                </h1>
-                                <div class="product-page__categorie">
-                                    <p>Категория</p>
-                                </div>
-                                <div class="product-page__description">
-                                    <p>descriptiondescri ptiondes criptiondescriptiondescrip tiond escriptiondesc  riptiondes riptio ndes criptiond escriptiondescr iptiondescrip tiondescri ptionde   scrip  tiondes criptiondescri pt on des cription</p>
-                                </div>
+                    <div class="news-page__body">
+                        <div class="news-page__text">
+                            <h1 class="news-page__title h2">
+                                <p>Заголовок новости</p>
+                            </h1>
+                            <div class="news-page__description">
+                                <p>descriptiondescri ptiondes criptiondescriptiondescrip tiond escriptiondesc  riptiondes riptio ndes criptiond escriptiondescr iptiondescrip tiondescri ptionde   scrip  tiondes criptiondescri pt on des cription</p>
                             </div>
-                            <div class="product-page__buy">
-                                <div class="product-page__price">
-                                    <p>Цена: 10000</p>
-                                </div>
-                                <button 
-                                    class="product-page__button button button-cart"
-                                    type="submit"
-                                >
-                                    Добавить в корзину
-                                </button>
-                            </div>
+                        </div>
+                        <div class="news-page__extra">
+                            <time class="news-page__date" datetime="10.12.2024">10.12.2024</time>
+                            <img 
+                                src="../static/images/news_1.jpg" 
+                                alt="" 
+                                class="news-page__image"
+                                width="500" height="400" loading="lazy"
+                            >
                         </div>
                     </div>
                 </div>

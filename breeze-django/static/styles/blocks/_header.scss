@@ -32,8 +32,15 @@
         }
         
         &-item {
-            &:hover {
-                color: var(--color-light);
+            a {
+                &:hover {
+                    color: var(--color-light);
+                }
+
+                &:active {
+                    transform: scale(0.9);
+                    transition-duration: var(--transition-duration);
+                }
             }
         }
     }

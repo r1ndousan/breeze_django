@@ -29,9 +29,10 @@
                 &:hover {
                     color: var(--color-light);
                 }
-
+                
                 &:active {
-                    color: var(--color-light-blue);
+                    transform: scale(0.9);
+                    transition-duration: var(--transition-duration);
                 }
             }
         }

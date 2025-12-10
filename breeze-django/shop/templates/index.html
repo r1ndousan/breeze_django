@@ -6,16 +6,16 @@
         content="width=device-width, user-scalable=no, initial-scale=1.0 maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="/breeze-django/static/styles/styles.css">
-    <script src="{% static 'js/main.js' %}" defer></script>
+    <script src="{% static 'js/index.js' %}" defer></script>
     <title>Breeze - Главная</title>
 </head>
 <body>
     <header class="header">
         <div class="header__inner container">
             <div class="header__logo">
-                <a href="./shop/index.html" class="header__logo logo">
+                <a href="./index.html" class="header__logo logo">
                     <img 
-                        src="../static/images/logo.png" 
+                        src="/breeze-django/static/images/logo.png" 
                         alt="" 
                         class="logo__image none"
                         width="90" height="60" loading="lazy"
@@ -26,25 +26,25 @@
             <nav class="header__menu">
                 <ul class="header__menu-list">
                     <li class="header__menu-item">
-                        <a href="index.html" class="header__menu-link">Главная</a>
+                        <a href="/breeze-django/shop/templates/index.html" class="header__menu-link">Главная</a>
                     </li>
                     <li class="header__menu-item">
-                        <a href="../static/all-news.html" class="header__menu-link">Новости</a>
+                        <a href="/breeze-django/shop/templates/all-news.html" class="header__menu-link">Новости</a>
                     </li>
                     <li class="header__menu-item">
-                        <a href="../static/catalog.html" class="header__menu-link">Каталог</a>
+                        <a href="/breeze-django/shop/templates/catalog.html" class="header__menu-link">Каталог</a>
                     </li>
                     <li class="header__menu-item">
-                        <a href="../static/cart.html" class="header__menu-link">Корзина</a>
+                        <a href="/breeze-django/shop/templates/cart.html" class="header__menu-link">Корзина</a>
                     </li>
                     <li class="header__menu-item">
-                        <a href="../static/checkout.html" class="header__menu-link">Мои заказы</a>
+                        <a href="/breeze-django/shop/templates/checkout.html" class="header__menu-link">Мои заказы</a>
                     </li>
                     <li class="header__menu-item">
-                        <a href="../static/orders.html" class="header__menu-link">Заказы</a>
+                        <a href="/breeze-django/shop/templates/orders.html" class="header__menu-link">Заказы</a>
                     </li>
                     <li class="header__menu-item">
-                        <a href="../static/contacts.html" class="header__menu-link">Контакты</a>
+                        <a href="/breeze-django/shop/templates/contacts.html" class="header__menu-link">Контакты</a>
                     </li>
                 </ul>
             </nav>
@@ -52,14 +52,14 @@
                 <a 
                     class="header__button button button-login" 
                     type="button-class"
-                    href="/breeze-django/static/log-in.html"
+                    href="/breeze-django/shop/templates/log-in.html"
                 >
                     Войти
                 </a>
                 <a 
                     class="header__button button button-signup" 
                     type="button-class"
-                    href="/breeze-django/static/sign-up.html"
+                    href="/breeze-django/shop/templates/sign-up.html"
                 >
                     Регистрация
                 </a>
@@ -82,7 +82,7 @@
                             </div>
                         </div>
                         <img 
-                            src="../static/images/header-image.png" 
+                            src="/breeze-django/static/images/header-image.png" 
                             alt="" 
                             class="showcase__image none"
                             width="900" height="700" loading="lazy"
@@ -101,9 +101,9 @@
                     <div class="products__inner">
                         <ul class="products__list">
                             <li class="products__item">
-                                <a class="products-card" href="../static/catalog.html">
+                                <a class="products-card" href="/breeze-django/shop/templates/catalog.html">
                                     <img 
-                                        src="../static/images/showcase_1.jpg" 
+                                        src="/breeze-django/static/images/showcase_1.jpg" 
                                         alt="" 
                                         class="products-card__image"
                                         width="250" height="380" loading="lazy"
@@ -112,9 +112,9 @@
                                 </a>
                             </li>
                             <li class="products__item">
-                                <a class="products-card" href="../static/catalog.html">
+                                <a class="products-card" href="/breeze-django/shop/templates/catalog.html">
                                     <img 
-                                        src="../static/images/showcase_2.jpg" 
+                                        src="/breeze-django/static/images/showcase_2.jpg" 
                                         alt="" 
                                         class="products-card__image"
                                         width="250" height="380" loading="lazy"
@@ -123,9 +123,9 @@
                                 </a>
                             </li>
                             <li class="products__item">
-                                <a class="products-card" href="../static/catalog.html">
+                                <a class="products-card" href="/breeze-django/shop/templates/catalog.html">
                                     <img 
-                                        src="../static/images/showcase_3.jpg" 
+                                        src="/breeze-django/static/images/showcase_3.jpg" 
                                         alt="" 
                                         class="products-card__image"
                                         width="250" height="380" loading="lazy"
@@ -242,9 +242,9 @@
         <div class="footer__inner">
             <div class="footer__body">
                 <div class="footer__logo">
-                    <a href="index.html" class="footer__logo logo">
+                    <a href="/breeze-django/shop/templates/index.html" class="footer__logo logo">
                         <img 
-                            src="../static/images/logo.png" 
+                            src="/breeze-django/static/images/logo.png" 
                             alt="" 
                             class="logo__image none"
                             width="80" height="60" loading="lazy"
@@ -258,25 +258,25 @@
                         <nav class="footer__menu">
                             <ul class="footer__menu-list">
                                 <li class="footer__menu-item">
-                                    <a href="index.html" class="footer__menu-link">Главная</a>
+                                    <a href="/breeze-django/shop/templates/index.html" class="footer__menu-link">Главная</a>
                                 </li>
                                 <li class="footer__menu-item">
-                                    <a href="../static/catalog.html" class="footer__menu-link">Каталог</a>
+                                    <a href="/breeze-django/shop/templates/catalog.html" class="footer__menu-link">Каталог</a>
                                 </li>
                                 <li class="footer__menu-item">
-                                    <a href="../static/all-news.html" class="footer__menu-link">Новости</a>
+                                    <a href="/breeze-django/shop/templates/all-news.html" class="footer__menu-link">Новости</a>
                                 </li>
                                 <li class="footer__menu-item">
-                                    <a href="../static/contacts.html" class="footer__menu-link">Контакты</a>
+                                    <a href="/breeze-django/shop/templates/contacts.html" class="footer__menu-link">Контакты</a>
                                 </li>
                                 <li class="footer__menu-item">
-                                    <a href="../static/cart.html" class="header__menu-link">Корзина</a>
+                                    <a href="/breeze-django/shop/templates/cart.html" class="header__menu-link">Корзина</a>
                                 </li>
                                 <li class="footer__menu-item">
-                                    <a href="../static/checkout.html" class="header__menu-link">Мои заказы</a>
+                                    <a href="/breeze-django/shop/templates/checkout.html" class="header__menu-link">Мои заказы</a>
                                 </li>
                                 <li class="footer__menu-item">
-                                    <a href="../static/orders.html" class="header__menu-link">Заказы</a>
+                                    <a href="/breeze-django/shop/templates/orders.html" class="header__menu-link">Заказы</a>
                                 </li>
                             </ul>
                         </nav>

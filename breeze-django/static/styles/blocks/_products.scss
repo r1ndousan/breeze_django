@@ -26,5 +26,10 @@
             filter: brightness(0.8);
             text-decoration: underline;
         }
-    }
+
+        &:active {
+            transform: scale(0.95);
+            transition-duration: var(--transition-duration);
+        }
+}
 }
