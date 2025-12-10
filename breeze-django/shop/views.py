@@ -58,18 +58,8 @@ def _cart_items_with_products(cart_dict):
 # ---------- Views ----------
 
 def index(request):
-    """
-    Главная страница. Передаём небольшой набор товаров для превью.
-    """
-    products = load_products()
-    preview = products[:3] if products else []
-    cart = _get_cart_from_session(request)
-    cart_count = sum(int(v) for v in cart.values()) if cart else 0
-    context = {
-        'products': preview,
-        'cart_count': cart_count,
-    }
-    return render(request, 'shop/index.html', context)
+
+    return render(request, 'shop/index.html')
 
 
 def catalog(request):
