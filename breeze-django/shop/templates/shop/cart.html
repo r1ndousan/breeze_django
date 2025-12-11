@@ -11,9 +11,6 @@
             </header>
             <div class="section__body">
                 <div class="cart">
-                    {% if not user.is_authenticated %}
-                        <p>Чтобы использовать корзину, войдите в аккаунт или <a href="{% url 'accounts:register' %}">зарегистрируйтесь</a>.</p>
-                    {% else %}
                         <ul class="cart-cards_list">
                             <li class="cart-cards_item">
                                 <div class="cart-card">
@@ -101,8 +98,7 @@
                         <div class="cart__summary">
                             <span>Итого:</span>
                             <p>9999</p>
-                        </div>
-                    {% endif %}
+                        </div>                   
                 </div>
             </div>
         </section>

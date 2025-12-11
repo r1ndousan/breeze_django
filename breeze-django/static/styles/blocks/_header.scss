@@ -52,4 +52,15 @@
         column-gap: 30px;
         padding: 25px;
     }
+
+    &__welcome {
+        &:hover {
+            text-decoration: underline;
+        }
+
+        &:active {
+            transform: scale(0.9);
+            transition-duration: var(--transition-duration);
+        }
+    }
 }

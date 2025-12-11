@@ -37,3 +37,10 @@
         align-items: center;
     }
 }
+
+.profile {
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+    padding: 30px 100px 60px 100px;
+}

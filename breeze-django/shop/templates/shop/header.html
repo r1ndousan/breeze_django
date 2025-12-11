@@ -1,62 +1,58 @@
-{% load static %} 
+{% load static %}
 <header class="header">
-        <div class="header__inner container">
-            <div class="header__logo">
-                <a href="{% url 'shop:index' %}" class="header__logo logo">
-                    <img 
-                        src="{% static 'images/logo.png' %}" 
-                        alt="breeze" 
-                        class="logo__image none"
-                        width="90" height="60" loading="lazy"
-                    >
-                </a>
-                <h2 class="header__logo-title">breeze</h2>
-            </div>
-            <nav class="header__menu">
-                <ul class="header__menu-list">
-                    <li class="header__menu-item">
-                        <a href="{% url 'shop:index' %}" class="header__menu-link">Главная</a>
-                    </li>
-                    <li class="header__menu-item">
-                        <a href="{% url 'shop:all_news' %}" class="header__menu-link">Новости</a>
-                    </li>
-                    <li class="header__menu-item">
-                        <a href="{% url 'shop:catalog' %}" class="header__menu-link">Каталог</a>
-                    </li>
-
-                    {% if user.is_authenticated and not user.is_staff %}
-                        <li class="header__menu-item">
-                            <a href="{% url 'shop:cart' %}" class="header__menu-link">Корзина</a>
-                        </li>
-                        <li class="header__menu-item">
-                            <a href="{% url 'shop:checkout' %}" class="header__menu-link">Мои заказы</a>
-                        </li>
-                    {% endif %}
-
-                    {% if user.is_staff or user.is_superuser %}
-                        <li class="header__menu-item">
-                            <a href="{% url 'shop:orders' %}" class="header__menu-link">Заказы</a>
-                        </li>
-                    {% endif %}
-
-                    <li class="header__menu-item">
-                        <a href="{% url 'shop:contacts' %}" class="header__menu-link">Контакты</a>
-                    </li>
-                </ul>
-            </nav>
-            <div class="header__auth">
-                {% if user.is_authenticated %}
-    <a href="{% url 'accounts:profile' %}" class="header__button button">
-      {{ user.first_name|default:user.username }}
-    </a>
-    <form method="post" action="{% url 'accounts:logout' %}" style="display:inline">
-      {% csrf_token %}
-      <button type="submit" class="header__button button">Выйти</button>
-    </form>
-  {% else %}
-    <a class="header__button button button-login" href="{% url 'accounts:login' %}">Войти</a>
-    <a class="header__button button button-signup" href="{% url 'accounts:register' %}">Регистрация</a>
-  {% endif %}
-            </div>
+    <div class="header__inner container">
+        <div class="header__logo">
+            <a href="{% url 'shop:index' %}" class="header__logo logo">
+                <img src="{% static 'images/logo.png' %}" alt="breeze" class="logo__image none" width="90" height="60"
+                    loading="lazy">
+            </a>
+            <h2 class="header__logo-title">breeze</h2>
         </div>
+        <nav class="header__menu">
+            <ul class="header__menu-list">
+                <li class="header__menu-item">
+                    <a href="{% url 'shop:index' %}" class="header__menu-link">Главная</a>
+                </li>
+                <li class="header__menu-item">
+                    <a href="{% url 'shop:all_news' %}" class="header__menu-link">Новости</a>
+                </li>
+                <li class="header__menu-item">
+                    <a href="{% url 'shop:catalog' %}" class="header__menu-link">Каталог</a>
+                </li>
+                
+                {% if user.is_authenticated and user.profile.role == 'client' %}
+                <li class="header__menu-item">
+                    <a href="{% url 'shop:cart' %}" class="header__menu-link">Корзина</a>
+                </li>
+                <li class="header__menu-item">
+                    <a href="{% url 'shop:checkout' %}" class="header__menu-link">Мои заказы</a>
+                </li>
+                {% endif %}
+
+                {% if user.is_authenticated and user.profile.role == 'manager' or user.is_superuser %}
+                <li class="header__menu-item">
+                    <a href="{% url 'shop:orders' %}" class="header__menu-link">Заказы</a>
+                </li>
+                {% endif %}
+
+                <li class="header__menu-item">
+                    <a href="{% url 'shop:contacts' %}" class="header__menu-link">Контакты</a>
+                </li>
+            </ul>
+        </nav>
+        <div class="header__auth">
+            {% if user.is_authenticated %}
+            <a href="{% url 'accounts:profile' %}" class="header__welcome">
+                {{ user.first_name|default:user.username }}
+            </a>
+            <form method="post" action="{% url 'accounts:logout' %}" style="display:inline">
+                {% csrf_token %}
+                <button type="submit" class="header__button button">Выйти</button>
+            </form>
+            {% else %}
+            <a class="header__button button button-login" href="{% url 'accounts:login' %}">Войти</a>
+            <a class="header__button button button-signup" href="{% url 'accounts:register' %}">Регистрация</a>
+            {% endif %}
+        </div>
+    </div>
 </header>

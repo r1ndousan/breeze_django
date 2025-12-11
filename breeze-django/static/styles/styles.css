@@ -344,6 +344,13 @@ h4, .h4 {
        column-gap: 30px;
   padding: 25px;
 }
+.header__welcome:hover {
+  text-decoration: underline;
+}
+.header__welcome:active {
+  transform: scale(0.9);
+  transition-duration: var(--transition-duration);
+}
 
 .button {
   display: flex;
@@ -1043,6 +1050,13 @@ h4, .h4 {
   -moz-column-gap: 30px;
        column-gap: 30px;
   align-items: center;
+}
+
+.profile {
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+  padding: 30px 100px 60px 100px;
 }
 
 .footer {

@@ -9,53 +9,44 @@
     <header class="section__header header-center">
       <h1 class="section__title h2">Регистрация</h1>
     </header>
-
     <div class="section__body">
       <div class="sign-up">
         <form method="post" class="sign-up__form" novalidate>
           {% csrf_token %}
           <h2 class="sign-up__title">Создайте аккаунт</h2>
-
-          {# Показываем non-field ошибки #}
-          {% if form.non_field_errors %}
-            <div class="form-errors">
-              {% for err in form.non_field_errors %}
-                <p class="error">{{ err }}</p>
-              {% endfor %}
-            </div>
-          {% endif %}
+          <span class="sign-up__reminder">Заполните все поля формы</span>
 
           <div class="sign-up__fields">
             <ul class="sign-up__list">
-              <li class="sign-up__item">
-                {{ form.username.label_tag }}
-                {{ form.username }}
-                {% for err in form.username.errors %}<p class="error">{{ err }}</p>{% endfor %}
-              </li>
-
-              <li class="sign-up__item">
-                {{ form.first_name.label_tag }}
-                {{ form.first_name }}
-                {% for err in form.first_name.errors %}<p class="error">{{ err }}</p>{% endfor %}
-              </li>
-
-              <li class="sign-up__item">
-                {{ form.email.label_tag }}
-                {{ form.email }}
-                {% for err in form.email.errors %}<p class="error">{{ err }}</p>{% endfor %}
-              </li>
-
-              <li class="sign-up__item">
-                {{ form.password1.label_tag }}
-                {{ form.password1 }}
-                {% for err in form.password1.errors %}<p class="error">{{ err }}</p>{% endfor %}
-              </li>
-
-              <li class="sign-up__item">
-                {{ form.password2.label_tag }}
-                {{ form.password2 }}
-                {% for err in form.password2.errors %}<p class="error">{{ err }}</p>{% endfor %}
-              </li>
+              {% if form %}
+                {% for field in form %}
+                  <li class="sign-up__item">
+                    <label for="{{ field.id_for_label }}" class="sign-up-label">{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.help_text %}<small class="help">{{ field.help_text }}</small>{% endif %}
+                    {% if field.errors %}
+                      <div class="field-errors">{{ field.errors|striptags }}</div>
+                    {% endif %}
+                  </li>
+                {% endfor %}
+              {% else %}
+                <li class="sign-up__item">
+                  <label for="name" class="sign-up-label">Имя:</label>
+                  <input id="name" type="text" class="sign-up-input input" placeholder="Имя" name="name" required>
+                </li>
+                <li class="sign-up__item">
+                  <label for="email" class="sign-up-label">E-mail:</label>
+                  <input id="email" type="email" class="sign-up-input input" placeholder="E-mail" name="email" required>
+                </li>
+                <li class="sign-up__item">
+                  <label for="password" class="sign-up-label">Пароль:</label>
+                  <input id="password" type="password" class="sign-up-input input" placeholder="Пароль" name="password" required>
+                </li>
+                <li class="sign-up__item">
+                  <label for="repassword" class="sign-up-label">Подтвердите пароль:</label>
+                  <input id="repassword" type="password" class="sign-up-input input" placeholder="Подтвердите пароль" name="password2" required>
+                </li>
+              {% endif %}
             </ul>
           </div>
 
@@ -65,7 +56,7 @@
 
           <div class="sign-up__log-in">
             <span class="sign-up__log-in-message">У Вас уже есть аккаунт?</span>
-            <a class="sign-up__button button button-blue button-log-in" href="{% url 'accounts:login' %}">Войти</a>
+            <a href="{% url 'accounts:login' %}" class="sign-up__button button button-blue button-log-in">Войти</a>
           </div>
         </form>
       </div>
