@@ -1,6 +1,7 @@
 {% extends 'shop/base.html' %}
 {% load static %}
-{% block title %}Регистрация — Breeze{% endblock %}
+
+{% block title %}Breeze — Регистрация{% endblock %}
 
 {% block content %}
 <main class="content">
@@ -8,27 +9,63 @@
     <header class="section__header header-center">
       <h1 class="section__title h2">Регистрация</h1>
     </header>
+
     <div class="section__body">
       <div class="sign-up">
         <form method="post" class="sign-up__form" novalidate>
           {% csrf_token %}
           <h2 class="sign-up__title">Создайте аккаунт</h2>
-          {% for message in messages %}
-            <div class="alert">{{ message }}</div>
-          {% endfor %}
-          {{ form.non_field_errors }}
-          <ul class="sign-up__list">
-            <li class="sign-up__item">{{ form.name.label_tag }}{{ form.name }}{{ form.name.errors }}</li>
-            <li class="sign-up__item">{{ form.email.label_tag }}{{ form.email }}{{ form.email.errors }}</li>
-            <li class="sign-up__item">{{ form.password.label_tag }}{{ form.password }}{{ form.password.errors }}</li>
-            <li class="sign-up__item">{{ form.password2.label_tag }}{{ form.password2 }}{{ form.password2.errors }}</li>
-          </ul>
+
+          {# Показываем non-field ошибки #}
+          {% if form.non_field_errors %}
+            <div class="form-errors">
+              {% for err in form.non_field_errors %}
+                <p class="error">{{ err }}</p>
+              {% endfor %}
+            </div>
+          {% endif %}
+
+          <div class="sign-up__fields">
+            <ul class="sign-up__list">
+              <li class="sign-up__item">
+                {{ form.username.label_tag }}
+                {{ form.username }}
+                {% for err in form.username.errors %}<p class="error">{{ err }}</p>{% endfor %}
+              </li>
+
+              <li class="sign-up__item">
+                {{ form.first_name.label_tag }}
+                {{ form.first_name }}
+                {% for err in form.first_name.errors %}<p class="error">{{ err }}</p>{% endfor %}
+              </li>
+
+              <li class="sign-up__item">
+                {{ form.email.label_tag }}
+                {{ form.email }}
+                {% for err in form.email.errors %}<p class="error">{{ err }}</p>{% endfor %}
+              </li>
+
+              <li class="sign-up__item">
+                {{ form.password1.label_tag }}
+                {{ form.password1 }}
+                {% for err in form.password1.errors %}<p class="error">{{ err }}</p>{% endfor %}
+              </li>
+
+              <li class="sign-up__item">
+                {{ form.password2.label_tag }}
+                {{ form.password2 }}
+                {% for err in form.password2.errors %}<p class="error">{{ err }}</p>{% endfor %}
+              </li>
+            </ul>
+          </div>
+
           <div class="sign-up__button">
             <button class="sign-up__button button button-signup" type="submit">Создать аккаунт</button>
           </div>
+
           <div class="sign-up__log-in">
-            <span>Уже есть аккаунт?</span>
-            <a href="{% url 'accounts:login' %}" class="button button-blue">Войти</a>
+            <span class="sign-up__log-in-message">У Вас уже есть аккаунт?</span>
+            <a class="sign-up__button button button-blue button-log-in" href="{% url 'accounts:login' %}">Войти</a>
           </div>
         </form>
       </div>
