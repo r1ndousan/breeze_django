@@ -1,0 +1,9 @@
+{% extends 'shop/base.html' %}
+{% block content %}
+  <form method="post" action="{% url 'accounts:logout' %}">
+    {% csrf_token %}
+    <p>Вы уверены, что хотите выйти?</p>
+    <button type="submit" class="button">Выйти</button>
+    <a href="{% url 'shop:index' %}" class="button">Отмена</a>
+  </form>
+{% endblock %}

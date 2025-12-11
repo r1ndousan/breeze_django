@@ -1,88 +1,38 @@
 {% extends 'shop/base.html' %}
 {% load static %}
-
-{% block title %}Breeze — Регистрация{% endblock %}
+{% block title %}Регистрация — Breeze{% endblock %}
 
 {% block content %}
-    <main class="content">
-        <section class="section container section-blue">
-            <header class="section__header header-center">
-                <h1 class="section__title h2">Регистрация</h1>
-            </header>
-            <div class="section__body">
-                <div class="sign-up">
-                    <form action="" class="sign-up__form">
-                        <h2 class="sign-up__title">Создайте аккаунт</h2>
-                        <span class="sign-up__reminder">Заполните все поля формы</span>
-                        <div class="sign-up__fields">
-                            <ul class="sign-up__list">
-                                <li class="sign-up__item">
-                                    <label for="name" class="sign-up-label">Имя:</label>
-                                    <input 
-                                        id="name"
-                                        type="text"
-                                        class="sign-up-input input"
-                                        placeholder="Имя"
-                                        name="name"
-                                        required
-                                    >
-                                </li>
-                                <li class="sign-up__item">
-                                    <label for="email" class="sign-up-label">E-mail:</label>
-                                    <input 
-                                        id="email"
-                                        type="email"
-                                        class="sign-up-input input"
-                                        placeholder="E-mail"
-                                        name="email"
-                                        required
-                                    >
-                                </li>
-                                <li class="sign-up__item">
-                                    <label for="password" class="sign-up-label">Пароль:</label>
-                                    <input 
-                                        id="password"
-                                        type="password"
-                                        class="sign-up-input input"
-                                        placeholder="Пароль"
-                                        name="password"
-                                        required
-                                    >
-                                </li>
-                                <li class="sign-up__item">
-                                    <label for="repassword" class="sign-up-label">Подтвердите пароль:</label>
-                                    <input 
-                                        id="repassword"
-                                        type="password"
-                                        class="sign-up-input input"
-                                        placeholder="Подтвердите пароль"
-                                        name="repassword"
-                                        required
-                                    >
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="sign-up__button">
-                            <button 
-                                class="sign-up__button button button-signup"
-                                type="submit"
-                            >
-                                Создать аккаунт
-                            </button>
-                        </div>
-                        <div class="sign-up__log-in">
-                            <span class="sign-up__log-in-message">У Вас уже есть аккаунт?</span>
-                            <button 
-                                class="sign-up__button button button-blue button-log-in"
-                                type="submit"
-                                onclick="location.href='log-in.html'"
-                            >
-                                Войти
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </section>
-    </main>
+<main class="content">
+  <section class="section container section-blue">
+    <header class="section__header header-center">
+      <h1 class="section__title h2">Регистрация</h1>
+    </header>
+    <div class="section__body">
+      <div class="sign-up">
+        <form method="post" class="sign-up__form" novalidate>
+          {% csrf_token %}
+          <h2 class="sign-up__title">Создайте аккаунт</h2>
+          {% for message in messages %}
+            <div class="alert">{{ message }}</div>
+          {% endfor %}
+          {{ form.non_field_errors }}
+          <ul class="sign-up__list">
+            <li class="sign-up__item">{{ form.name.label_tag }}{{ form.name }}{{ form.name.errors }}</li>
+            <li class="sign-up__item">{{ form.email.label_tag }}{{ form.email }}{{ form.email.errors }}</li>
+            <li class="sign-up__item">{{ form.password.label_tag }}{{ form.password }}{{ form.password.errors }}</li>
+            <li class="sign-up__item">{{ form.password2.label_tag }}{{ form.password2 }}{{ form.password2.errors }}</li>
+          </ul>
+          <div class="sign-up__button">
+            <button class="sign-up__button button button-signup" type="submit">Создать аккаунт</button>
+          </div>
+          <div class="sign-up__log-in">
+            <span>Уже есть аккаунт?</span>
+            <a href="{% url 'accounts:login' %}" class="button button-blue">Войти</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
 {% endblock %}

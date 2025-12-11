@@ -15,20 +15,22 @@
                         >
                             Назад
                         </a>
-                        <div class="product-page__buttons-admin">
-                            <button 
-                            class="product-page__button button button-edit"
-                            type="submit"
-                            >
-                                Редактировать
-                            </button>
-                            <button 
-                                class="product-page__button button button-delete"
+                        {% if user.is_authenticated and (user.is_superuser or user.profile.role == 'manager') %}
+                            <div class="product-page__buttons-admin">
+                                <button 
+                                class="product-page__button button button-edit"
                                 type="submit"
-                            >
-                                Удалить
-                            </button>
-                        </div>
+                                >
+                                    Редактировать
+                                </button>
+                                <button 
+                                    class="product-page__button button button-delete"
+                                    type="submit"
+                                >
+                                    Удалить
+                                </button>
+                            </div>
+                        {% endif %}    
                     </div>
                     <div class="product-page__body">
                         <img 

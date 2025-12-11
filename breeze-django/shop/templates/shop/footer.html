@@ -30,15 +30,21 @@
                                 <li class="footer__menu-item">
                                     <a href="{% url 'shop:contacts' %}" class="footer__menu-link">Контакты</a>
                                 </li>
-                                <li class="footer__menu-item">
-                                    <a href="{% url 'shop:cart' %}" class="header__menu-link">Корзина</a>
-                                </li>
-                                <li class="footer__menu-item">
-                                    <a href="{% url 'shop:checkout' %}" class="header__menu-link">Мои заказы</a>
-                                </li>
-                                <li class="footer__menu-item">
-                                    <a href="{% url 'shop:orders' %}" class="header__menu-link">Заказы</a>
-                                </li>
+
+                                {% if user.is_authenticated and not user.is_staff %}
+                                    <li class="footer__menu-item">
+                                        <a href="{% url 'shop:cart' %}" class="footer__menu-link">Корзина</a>
+                                    </li>
+                                    <li class="footer__menu-item">
+                                        <a href="{% url 'shop:checkout' %}" class="footer__menu-link">Мои заказы</a>
+                                    </li>
+                                {% endif %}
+
+                                {% if user.is_staff or user.is_superuser %}
+                                    <li class="footer__menu-item">
+                                        <a href="{% url 'shop:orders' %}" class="footer__menu-link">Заказы</a>
+                                    </li>
+                                {% endif %}
                             </ul>
                         </nav>
                     </div>

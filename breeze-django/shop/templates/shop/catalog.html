@@ -8,12 +8,14 @@
         <section class="section container section-gradient">
             <header class="section__header header-center">
                 <h1 class="section__title h2">Каталог</h1>
-                <button 
-                    class="catalog__button button button-add"
-                    type="submit"
-                >
-                    Добавить товар
-                </button>
+                {% if user.is_staff or user.is_superuser %}    
+                    <button 
+                        class="catalog__button button button-add"
+                        type="submit"
+                    >
+                        Добавить товар
+                    </button>
+                {% endif %}
             </header>
             <div class="section__body">
                 <div class="catalog">

@@ -11,94 +11,98 @@
             </header>
             <div class="section__body">
                 <div class="cart">
-                    <ul class="cart-cards_list">
-                        <li class="cart-cards_item">
-                            <div class="cart-card">
-                                <img 
-                                    src="../static/images/catalog/product1.jpg" 
-                                    alt="" 
-                                    class="cart-card__image"
-                                    width="250" height="250" loading="lazy"
-                                >
-                                <div class="cart-card__info">
-                                    <div class="cart-card__info-left">
-                                        <h3 class="cart-card__title">Название товара</h3>
-                                        <p class="categorie">Категория</p>
-                                        <button 
-                                            class="cart-card__button button button-delete"
-                                            type="button"
-                                        >
-                                            Удалить
-                                        </button>
-                                    </div>
-                                    <ul class="cart-card__info-list">
-                                        <li class="cart-card__info-item">
-                                            <label for="price" class="cart-card__price">Цена, ₽</label>
-                                            <p id="price" class="cart-card__price">55555</p>
-                                        </li>
-                                        <li class="cart-card__info-item">
-                                            <label for="count" class="cart-card__count">Количество</label>
-                                            <input 
-                                                type="numeric"
-                                                class="cart-card__count-input input"
-                                                id="count"
-                                                placeholder="шт"
+                    {% if not user.is_authenticated %}
+                        <p>Чтобы использовать корзину, войдите в аккаунт или <a href="{% url 'accounts:register' %}">зарегистрируйтесь</a>.</p>
+                    {% else %}
+                        <ul class="cart-cards_list">
+                            <li class="cart-cards_item">
+                                <div class="cart-card">
+                                    <img 
+                                        src="../static/images/catalog/product1.jpg" 
+                                        alt="" 
+                                        class="cart-card__image"
+                                        width="250" height="250" loading="lazy"
+                                    >
+                                    <div class="cart-card__info">
+                                        <div class="cart-card__info-left">
+                                            <h3 class="cart-card__title">Название товара</h3>
+                                            <p class="categorie">Категория</p>
+                                            <button 
+                                                class="cart-card__button button button-delete"
+                                                type="button"
                                             >
-                                        </li>
-                                        <li class="cart-card__info-item">
-                                            <label for="amount" class="cart-card__info-amount">Стоимость</label>
-                                            <p id="amount" class="cart-card__amount">65464</p>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="cart-cards_item">
-                            <div class="cart-card">
-                                <img 
-                                    src="../static/images/catalog/product1.jpg" 
-                                    alt="" 
-                                    class="cart-card__image"
-                                    width="250" height="250" loading="lazy"
-                                >
-                                <div class="cart-card__info">
-                                    <div class="cart-card__info-left">
-                                        <h3 class="cart-card__title">Название товара</h3>
-                                        <p class="categorie">Категория</p>
-                                        <button 
-                                            class="cart-card__button button button-delete"
-                                            type="button"
-                                        >
-                                            Удалить
-                                        </button>
+                                                Удалить
+                                            </button>
+                                        </div>
+                                        <ul class="cart-card__info-list">
+                                            <li class="cart-card__info-item">
+                                                <label for="price" class="cart-card__price">Цена, ₽</label>
+                                                <p id="price" class="cart-card__price">55555</p>
+                                            </li>
+                                            <li class="cart-card__info-item">
+                                                <label for="count" class="cart-card__count">Количество</label>
+                                                <input 
+                                                    type="numeric"
+                                                    class="cart-card__count-input input"
+                                                    id="count"
+                                                    placeholder="шт"
+                                                >
+                                            </li>
+                                            <li class="cart-card__info-item">
+                                                <label for="amount" class="cart-card__info-amount">Стоимость</label>
+                                                <p id="amount" class="cart-card__amount">65464</p>
+                                            </li>
+                                        </ul>
                                     </div>
-                                    <ul class="cart-card__info-list">
-                                        <li class="cart-card__info-item">
-                                            <label for="price" class="cart-card__price">Цена, ₽</label>
-                                            <p id="price" class="cart-card__price">55555</p>
-                                        </li>
-                                        <li class="cart-card__info-item">
-                                            <label for="count" class="cart-card__count">Количество</label>
-                                            <input 
-                                                type="numeric"
-                                                class="cart-card__count-input input"
-                                                id="count"
-                                                placeholder="шт"
-                                            >
-                                        </li>
-                                        <li class="cart-card__info-item">
-                                            <label for="amount" class="cart-card__info-amount">Стоимость</label>
-                                            <p id="amount" class="cart-card__amount">65464</p>
-                                        </li>
-                                    </ul>
                                 </div>
-                            </div>
-                        </li>
-                    </ul>
-                    <div class="cart__summary">
-                        <span>Итого:</span>
-                        <p>9999</p>
-                    </div>
+                            </li>
+                            <li class="cart-cards_item">
+                                <div class="cart-card">
+                                    <img 
+                                        src="../static/images/catalog/product1.jpg" 
+                                        alt="" 
+                                        class="cart-card__image"
+                                        width="250" height="250" loading="lazy"
+                                    >
+                                    <div class="cart-card__info">
+                                        <div class="cart-card__info-left">
+                                            <h3 class="cart-card__title">Название товара</h3>
+                                            <p class="categorie">Категория</p>
+                                            <button 
+                                                class="cart-card__button button button-delete"
+                                                type="button"
+                                            >
+                                                Удалить
+                                            </button>
+                                        </div>
+                                        <ul class="cart-card__info-list">
+                                            <li class="cart-card__info-item">
+                                                <label for="price" class="cart-card__price">Цена, ₽</label>
+                                                <p id="price" class="cart-card__price">55555</p>
+                                            </li>
+                                            <li class="cart-card__info-item">
+                                                <label for="count" class="cart-card__count">Количество</label>
+                                                <input 
+                                                    type="numeric"
+                                                    class="cart-card__count-input input"
+                                                    id="count"
+                                                    placeholder="шт"
+                                                >
+                                            </li>
+                                            <li class="cart-card__info-item">
+                                                <label for="amount" class="cart-card__info-amount">Стоимость</label>
+                                                <p id="amount" class="cart-card__amount">65464</p>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                        <div class="cart__summary">
+                            <span>Итого:</span>
+                            <p>9999</p>
+                        </div>
+                    {% endif %}
                 </div>
             </div>
         </section>

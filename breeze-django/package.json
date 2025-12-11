@@ -1,0 +1,19 @@
+{
+  "name": "breeze-django",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "sass:watch": "sass --watch \"static/styles/styles.scss:static/styles/styles.css\" --no-source-map --style=expanded",
+    "sass:watch-dir": "sass --watch \"static/styles:static/styles\" --no-source-map --style=expanded",
+    "sass:build": "sass static/styles/styles.scss static/styles/styles.css --no-source-map --style=compressed"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "sass": "^1.96.0"
+  }
+}
