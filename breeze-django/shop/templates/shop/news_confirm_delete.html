@@ -1,0 +1,14 @@
+{% extends 'shop/base.html' %}
+{% block content %}
+<main class="content">
+  <section class="section container">
+    <div class="section__body">
+      <h2>Удалить новость: {{ news.title }}?</h2>
+      <form method="post">{% csrf_token %}
+        <button type="submit" class="button button-delete">Удалить</button>
+        <a href="{{ news.get_absolute_url }}" class="button">Отмена</a>
+      </form>
+    </div>
+  </section>
+</main>
+{% endblock %}

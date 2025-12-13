@@ -1,7 +1,7 @@
 {% extends 'shop/base.html' %}
 {% load static %}
 
-{% block title %}Breeze — Новость{% endblock %}
+{% block title %}Breeze — {{ news.title }}{% endblock %}
 
 {% block content %}
     <main class="content">
@@ -9,46 +9,31 @@
             <div class="section__body">
                 <div class="news-page">
                     <div class="news-page__buttons">
-                        <a 
-                            class="news-page__button button button-white"
-                            href="../static/all-news.html"
+                        <a class="news-page__button button button-white" 
+                            href="{% url 'shop:news_list' %}"
                         >
                             Назад
                         </a>
-                        {% if user.is_authenticated and (user.is_superuser or user.profile.role == 'manager') %}
+                        {% if user.is_authenticated and user.is_superuser or user.is_authenticated and user.profile.role == 'manager' %}
                             <div class="news-page__buttons-admin">
-                                <button 
-                                class="news-page__button button button-edit"
-                                type="submit"
-                                >
-                                    Редактировать
-                                </button>
-                                <button 
-                                    class="news-page__button button button-delete"
-                                    type="submit"
-                                >
-                                    Удалить
-                                </button>
+                                <a href="{% url 'shop:news_edit' news.pk %}" class="news-page__button button button-edit">Редактировать</a>
+                                <form action="{% url 'shop:news_delete' news.pk %}" method="post" style="display:inline">
+                                {% csrf_token %}
+                                <button class="news-page__button button button-delete" type="submit">Удалить</button>
+                                </form>
                             </div>
                         {% endif %}
                     </div>
                     <div class="news-page__body">
                         <div class="news-page__text">
-                            <h1 class="news-page__title h2">
-                                <p>Заголовок новости</p>
-                            </h1>
-                            <div class="news-page__description">
-                                <p>descriptiondescri ptiondes criptiondescriptiondescrip tiond escriptiondesc  riptiondes riptio ndes criptiond escriptiondescr iptiondescrip tiondescri ptionde   scrip  tiondes criptiondescri pt on des cription</p>
-                            </div>
+                            <h1 class="news-page__title h2">{{ news.title }}</h1>
+                            <div class="news-page__description">{{ news.content|linebreaks }}</div>
                         </div>
                         <div class="news-page__extra">
-                            <time class="news-page__date" datetime="10.12.2024">10.12.2024</time>
-                            <img 
-                                src="../static/images/news_1.jpg" 
-                                alt="" 
-                                class="news-page__image"
-                                width="500" height="400" loading="lazy"
-                            >
+                            <time class="news-page__date" datetime="{{ news.published_at }}">{{ news.published_at }}</time>
+                            {% if news.image %}
+                            <img src="{{ news.image.url }}" alt="{{ news.title }}" class="news-page__image" width="500" height="400" loading="lazy">
+                            {% endif %}
                         </div>
                     </div>
                 </div>

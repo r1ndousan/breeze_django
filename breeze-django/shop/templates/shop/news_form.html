@@ -1,0 +1,46 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+
+{% block title %}{{ action }} новость{% endblock %}
+
+{% block content %}
+<main class="content">
+  <section class="section container">
+    <div class="section__body">
+      <form method="post" enctype="multipart/form-data" class="news-form">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        <div>
+          {{ form.title.label_tag }}<br>
+          {{ form.title }}
+          {{ form.title.errors }}
+        </div>
+        <div>
+          {{ form.slug.label_tag }}<br>
+          {{ form.slug }}
+          {{ form.slug.errors }}
+        </div>
+        <div>
+          {{ form.published_at.label_tag }}<br>
+          {{ form.published_at }}
+          {{ form.published_at.errors }}
+        </div>
+        <div>
+          {{ form.image.label_tag }}<br>
+          {{ form.image }}
+          {{ form.image.errors }}
+        </div>
+        <div>
+          {{ form.content.label_tag }}<br>
+          {{ form.content }}
+          {{ form.content.errors }}
+        </div>
+        <div>
+          <button class="button" type="submit">{{ action }}</button>
+          <a href="{% url 'shop:news_list' %}" class="button button-white">Отмена</a>
+        </div>
+      </form>
+    </div>
+  </section>
+</main>
+{% endblock %}
