@@ -1,5 +1,5 @@
 .news-page {
-    padding: 40px 60px;
+    padding: 60px 100px;
     background-color: var(--color-light-blue);
 
     &__buttons {
@@ -19,8 +19,13 @@
         column-gap: 40px;
     }
 
+    &__text {
+        display: flex;
+        flex-direction: column;
+        padding: 20px;
+    }
+
     &__title {
-        padding-inline: 50px;
         margin-bottom: 20px;
     }
 

@@ -5,41 +5,63 @@
 
 {% block content %}
 <main class="content">
-  <section class="section container">
+  <section class="section container section-blue">
+    <header class="section__header header-center">
+      <h1 class="section__title  h2">Редактировать новость</h1>
+    </header>
     <div class="section__body">
-      <form method="post" enctype="multipart/form-data" class="news-form">
-        {% csrf_token %}
-        {{ form.non_field_errors }}
-        <div>
-          {{ form.title.label_tag }}<br>
-          {{ form.title }}
-          {{ form.title.errors }}
+      <div class="news-form">
+        <div class="news-form__wrapper">
+        <form method="post" enctype="multipart/form-data" class="news-form__form">
+          <div class="news-form__body">
+            <ul class="news-form__list">
+              {% csrf_token %}
+              {{ form.non_field_errors }}
+              <li class="news-form__item">
+                <div class="news-form__news-title">
+                  {{ form.title.label_tag }}<br>
+                  {{ form.title }}
+                  {{ form.title.errors }}
+                </div>
+              </li>
+              <li class="news-form__item">
+                <div class="news-form__slug">
+                  {{ form.slug.label_tag }}<br>
+                  {{ form.slug }}
+                  {{ form.slug.errors }}
+                </div>
+              </li>
+              <li class="news-form__item">
+                <div class="news-form__date">
+                  {{ form.published_at.label_tag }}<br>
+                  {{ form.published_at }}
+                  {{ form.published_at.errors }}
+                </div>
+              </li>
+              <li class="news-form__item">                                
+                <div class="news-form__image">
+                  {{ form.image.label_tag }}<br>
+                  {{ form.image }}
+                  {{ form.image.errors }}
+                </div>
+              </li>
+              <li class="news-form__item">               
+                <div class="news-form__content">
+                  {{ form.content.label_tag }}<br>
+                  {{ form.content }}
+                  {{ form.content.errors }}
+                </div>
+              </li>
+            </ul>            
+          </div>
+          <div class="news-form__buttons">
+            <button class="button" type="submit">{{ action }}</button>
+            <a href="{% url 'shop:news_list' %}" class="button button-white">Отмена</a>
+          </div>
+        </form>
         </div>
-        <div>
-          {{ form.slug.label_tag }}<br>
-          {{ form.slug }}
-          {{ form.slug.errors }}
-        </div>
-        <div>
-          {{ form.published_at.label_tag }}<br>
-          {{ form.published_at }}
-          {{ form.published_at.errors }}
-        </div>
-        <div>
-          {{ form.image.label_tag }}<br>
-          {{ form.image }}
-          {{ form.image.errors }}
-        </div>
-        <div>
-          {{ form.content.label_tag }}<br>
-          {{ form.content }}
-          {{ form.content.errors }}
-        </div>
-        <div>
-          <button class="button" type="submit">{{ action }}</button>
-          <a href="{% url 'shop:news_list' %}" class="button button-white">Отмена</a>
-        </div>
-      </form>
+      </div>
+      
     </div>
   </section>
 </main>
