@@ -1,7 +1,9 @@
 .news-card {
     &__body {
+        display: flex;
+        flex-direction: column;
         padding: 10px;
-        row-gap: 10px;
+        row-gap: 15px;
     }
 
     &__date {
@@ -9,7 +11,43 @@
     }
 
     &__image {
-        max-width: 300px;
-        height: auto;
+        &-wrapper {
+            position: relative;
+            overflow:hidden;
+            width:500px;
+            height:450px;
+        }
+
+        position: absolute;
+        top:50%;
+        left:50%;
+        transform:translate(-50%,-50%);
+        width:100%;
+        height:100%;
+        object-fit:cover;
+    }
+
+    &__link {
+        display: flex;
+        justify-content: center;
+        padding: 10px;
+        font-size: 24px;
+        text-decoration: underline;
+        background-color: var(--color-blue);
+        border-radius: var(--border-radius);
+
+        &:hover {
+            color: var(--color-light);
+        }
+
+        &:active {
+            transform: translateY(3px);
+            transition-duration: var(--transition-duration);
+        }
+    }
+
+    &__admin {
+        display: flex;
+        justify-content: space-between;
     }
 }

@@ -37,21 +37,17 @@
                                     </button>
                     </div>
                     <div class="all-news__main">
-                        <button 
-                            class="news__button button button-arrow"
-                            type="button"
-                        >
-                            <
-                        </button>
-                        <ul class="news__list grid grid--2">
+                        <ul class="news__list">
                             {% for n in news_list %}
                                     <li class="news__item">
                                             <article class="news-card">
-                                                {% if n.image %}
-                                                    <img src="{{ n.image.url }}" alt="{{ n.title }}" class="news-card__image" width="500" height="400" loading="lazy">
-                                                {% else %}
-                                                    <img src="{% static 'images/image.png' %}" alt="{{ n.title }}" class="news-card__image">
-                                                {% endif %}
+                                                <div class="news-card__image-wrapper">
+                                                    {% if n.image %}
+                                                        <img src="{{ n.image.url }}" alt="{{ n.title }}" class="news-card__image" width="500" height="400" loading="lazy">
+                                                    {% else %}
+                                                        <img src="{% static 'images/image.png' %}" alt="{{ n.title }}" class="news-card__image">
+                                                    {% endif %}
+                                                </div>
                                                 <div class="news-card__body">
                                                     <h3 class="news-card__title">{{ n.title }}</h3>
                                                     <div class="news-card__date"><time datetime="{{ n.published_at }}">{{ n.published_at }}</time></div>
@@ -59,7 +55,7 @@
                                                     <a href="{% url 'shop:news_detail' n.pk %}" class="news-card__link">Читать далее</a>
                                                     {% if user.is_authenticated and user.is_superuser or user.is_authenticated and user.profile.role == 'manager' %}
                                                         <div class="news-card__admin">
-                                                            <a href="{% url 'shop:news_edit' n.pk %}" class="button">Редактировать</a>
+                                                            <a href="{% url 'shop:news_edit' n.pk %}" class="button button-white">Редактировать</a>
                                                             <form action="{% url 'shop:news_delete' n.pk %}" method="post" style="display:inline">
                                                             {% csrf_token %}
                                                             <button class="button button-delete">Удалить</button>
@@ -74,14 +70,8 @@
                                 {% endfor %}
 
                         </ul>
-                        <button 
-                            class="news__button button button-arrow"
-                            type="button"
-                        >
-                            >
-                        </button>
                     </div>
-                    <div class="all-news__pagination pagination">
+                    <!-- <div class="all-news__pagination pagination">
                                 <ul class="pagination__list">
                                     <li class="pagination__item">
                                         <button
@@ -115,7 +105,7 @@
                                         </button>
                                     </li>    
                                 </ul>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </section>

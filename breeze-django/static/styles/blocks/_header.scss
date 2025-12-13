@@ -1,4 +1,6 @@
 .header {
+    flex-shrink: 0;
+
     &__inner {
         padding-inline: 30px;
     }
