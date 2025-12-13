@@ -19,14 +19,16 @@
                                     <label for="search" class="visually-hidden">Поиск</label>
                                     <input 
                                         type="text"
+                                        name="q"
                                         class="all-news__input input"
                                         id="search"
                                         placeholder="Поиск"
+                                        value="{{ q }}"
                                     >
                                     <label for="date-select" class="visually-hidden"></label>
-                                    <select id="date-select" class="all-news__select select">
-                                        <option value="newest" selected>Сначала новые</option>
-                                        <option value="oldest">Сначала старые</option>
+                                    <select id="date-select" name="order" class="all-news__select select">
+                                        <option value="newest" {% if order == 'newest' or not order %}selected{% endif %}>Сначала новые</option>
+                                        <option value="oldest" {% if order == 'oldest' %}selected{% endif %}>Сначала старые</option>
                                     </select>
                                 </div>
                                     <button 
@@ -71,41 +73,44 @@
 
                         </ul>
                     </div>
-                    <!-- <div class="all-news__pagination pagination">
-                                <ul class="pagination__list">
-                                    <li class="pagination__item">
-                                        <button
-                                            class="pagination__button is-current"
-                                            type="button"
-                                        >
-                                            <span class="visually-hidden">Первый слайд</span>
-                                        </button>
-                                    </li>
-                                    <li class="pagination__item">
-                                        <button
-                                            class="pagination__button"
-                                            type="button"
-                                        >
-                                            <span class="visually-hidden">Второй слайд</span>
-                                        </button>
-                                    </li>
-                                    <li class="pagination__item">
-                                        <button
-                                            class="pagination__button"
-                                            type="button"
-                                        >
-                                            <span class="visually-hidden">Третий слайд</span>
-                                        </button>
-                                    </li>
-                                    <li class="pagination__item">
-                                        <button
-                                            class="pagination__button"
-                                            type="button"
-                                        >
-                                        </button>
-                                    </li>    
-                                </ul>
-                    </div> -->
+                    {% if page_obj.has_other_pages %}
+                        <nav class="all-news__pagination" aria-label="Пагинация новостей">
+
+                                <div class="pagination__button-arrow">
+                                    {% if page_obj.has_previous %}
+                                        <div class="pagination__button-item">
+                                            <a class="button" href="?{% if base_qs %}{{ base_qs }}&{% endif %}page={{ page_obj.previous_page_number }}">←</a>
+                                        </div>
+                                    {% else %}
+                                        <div class="pagination__button-item"><span class="button disabled">←</span></div>
+                                    {% endif %}
+                                </div>
+                                <div class="pagination">
+                                    {# Показываем небольшой диапазон страниц вокруг текущей #}
+                                    {% for num in page_obj.paginator.page_range %}
+                                        {% if num >= page_obj.number|add:'-3' and num <= page_obj.number|add:'3' %}
+                                            <ul class="pagination__list">
+                                                {% if num == page_obj.number %}
+                                                    <li class="pagination__item"><span class="pagination__button is-current"></span></li>
+                                                {% else %}
+                                                    <li class="pagination__item"><a class="pagination__button" href="?{% if base_qs %}{{ base_qs }}&{% endif %}page={{ num }}"></a></li>
+                                                {% endif %}
+                                            </ul>    
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                                <div class="pagination_button-arrow">
+                                    {% if page_obj.has_next %}  
+                                        <div class="pagination__button-item">
+                                            <a class="button" href="?{% if base_qs %}{{ base_qs }}&{% endif %}page={{ page_obj.next_page_number }}">→</a>
+                                        </div>
+                                    {% else %}
+                                        <div class="pagination__button-item"><span class="button disabled">→</span></div>
+                                    {% endif %}
+                                </div>
+
+                        </nav>
+                    {% endif %}
                 </div>
             </div>
         </section>

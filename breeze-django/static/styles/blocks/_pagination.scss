@@ -1,7 +1,11 @@
 .pagination {
+    display: flex;
+    column-gap: 20px;
+
     &__list {
         display: flex;
-        column-gap: 10px;       
+        align-items: center;
+        column-gap: 20px;       
     }
 
     &__button {
@@ -21,5 +25,8 @@
             background-color: var(--color-blue);
             border: 3px solid var(--color-dark);
         }
+       
     }
+
+
 }

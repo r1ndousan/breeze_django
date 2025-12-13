@@ -1,18 +1,15 @@
 # shop/views.py
 from pathlib import Path
 from django.shortcuts import render, redirect
-from django.http import Http404, JsonResponse
-from django.views.decorators.http import require_http_methods
-import json
-from decimal import Decimal
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required, user_passes_test
 from .models import News
 from .forms import NewsForm
-from django.urls import reverse
-from django.http import HttpResponseForbidden
+from django.core.paginator import Paginator
+from django.db.models import Q
+
 
 # BASE_DIR — верхняя папка проекта (breeze-django/)
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -31,8 +28,41 @@ def index(request):
 
 
 def news_list(request):
-    news_qs = News.objects.all()
-    return render(request, 'shop/all-news.html', {'news_list': news_qs})
+    q = request.GET.get('q', '').strip()
+    order = request.GET.get('order', 'newest')  # 'newest' или 'oldest'
+    page_number = request.GET.get('page', 1)
+
+    qs = News.objects.all()
+
+    # Поиск по заголовку и содержанию
+    if q:
+        qs = qs.filter(Q(title__icontains=q) | Q(content__icontains=q))
+
+    # Сортировка по дате
+    if order == 'oldest':
+        qs = qs.order_by('published_at')
+    else:
+        qs = qs.order_by('-published_at')
+
+    # Пагинация (6 на страницу — поменяй по желанию)
+    paginator = Paginator(qs, 2)
+    page_obj = paginator.get_page(page_number)
+
+    # Сформируем базовую строку запроса без page, чтобы сохранять фильтры в ссылках
+    params = request.GET.copy()
+    if 'page' in params:
+        params.pop('page')
+    base_qs = params.urlencode()  # может быть пустой строкой
+
+    context = {
+        'news_list': page_obj.object_list,  # список новостей текущей страницы
+        'page_obj': page_obj,
+        'paginator': paginator,
+        'base_qs': base_qs,
+        'q': q,
+        'order': order,
+    }
+    return render(request, 'shop/all-news.html', context)
 
 def news_detail(request, pk):
     n = get_object_or_404(News, pk=pk)

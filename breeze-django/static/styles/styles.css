@@ -415,6 +415,11 @@ h4, .h4 {
 .button-order:hover {
   background-color: var(--color-light-blue);
 }
+.button.disabled {
+  background-color: var(--color-light);
+  color: var(--color-dark);
+  pointer-events: none;
+}
 
 .input {
   display: flex;
@@ -481,9 +486,14 @@ h4, .h4 {
   background-color: var(--color-light-blue);
 }
 
+.pagination {
+  display: flex;
+  column-gap: 20px;
+}
 .pagination__list {
   display: flex;
-  column-gap: 10px;
+  align-items: center;
+  column-gap: 20px;
 }
 .pagination__button {
   padding: 0;
@@ -735,6 +745,7 @@ h4, .h4 {
 .all-news__pagination {
   display: flex;
   justify-content: center;
+  column-gap: 100px;
 }
 
 .news-page {

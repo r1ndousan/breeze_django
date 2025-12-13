@@ -72,4 +72,10 @@
             background-color: var(--color-light-blue);
         }
     }
+
+    &.disabled {
+        background-color: var(--color-light);
+        color: var(--color-dark);
+        pointer-events: none;
+    }
 }
