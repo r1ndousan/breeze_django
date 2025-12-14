@@ -5,39 +5,33 @@
     padding: 0px 100px 100px;
 
     &__filters {
-        display: flex;
-        flex-direction: column;
-        align-self: center;
-
-        row-gap: 15px;
-        margin-bottom: 50px;
-
-        &-search {
+        &-form {
             display: flex;
+            flex-direction: column;
+            align-self: center;
+    
+            row-gap: 15px;
+            margin-bottom: 50px;
         }
 
-        &-cat-sort {
-            display: flex;
-            justify-content: center;
-            column-gap: 30px;
-        }
-
-        &-price {
-            display: flex;
-            justify-content: center;
-            column-gap: 30px;
-            margin-bottom: 10px;
-
-            &--field {
+            &-search {
                 display: flex;
-                align-items: center;
-                column-gap: 10px;
+                align-self: center;
             }
-        }
-
-        &-button {
-            padding-left: 50px;
-        }
+    
+            &-cat-sort {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                column-gap: 15px;
+            }
+    
+            &-price {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                column-gap: 20px;
+            }
     }
 
     &__input {
@@ -52,7 +46,21 @@
     }
 
     &__list {
-        row-gap: 30px;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+    }
+
+    &__link {
+        &:hover {
+            filter: brightness(0.9);
+            text-decoration: underline;
+        }
+
+        &:active {
+            transform: scale(0.95);
+            transition-duration: var(--transition-duration);
+        }
     }
 
     &__pagination {

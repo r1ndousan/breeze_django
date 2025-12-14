@@ -1,11 +1,15 @@
-def user_role(request):
+def user_role_flags(request):
     user = request.user
-    role = None
+    is_manager = False
+    is_client = False
     if user.is_authenticated:
-        # безопасно: user может не иметь profile (но у нас сигнал создаёт)
-        role = getattr(user, 'profile', None)
-        role = role.role if role else None
+        try:
+            role = getattr(user, 'profile', None) and user.profile.role
+        except Exception:
+            role = None
+        is_manager = user.is_superuser or (role == 'manager')
+        is_client = (role == 'client') or (not user.is_superuser and role != 'manager')
     return {
-        'user_role': role,
-        'is_manager': user.is_authenticated and (role == 'manager' or user.is_superuser),
+        'is_manager': is_manager,
+        'is_client': is_client,
     }

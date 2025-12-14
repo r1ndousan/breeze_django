@@ -9,37 +9,49 @@
             <div class="section__body">
                 <div class="product-page">
                     <div class="product-page__buttons">
-                        <a 
-                            class="product-page__button button button-white"
-                            href="../static/catalog.html"
-                        >
-                            Назад
-                        </a>
-                        {% if user.is_authenticated and (user.is_superuser or user.profile.role == 'manager') %}
+                         <a class="product-page__button button button-white" href="{% url 'shop:catalog' %}">Назад</a>
+                        {% if is_manager %}
                             <div class="product-page__buttons-admin">
-                                <button 
-                                class="product-page__button button button-edit"
-                                type="submit"
-                                >
-                                    Редактировать
-                                </button>
-                                <button 
-                                    class="product-page__button button button-delete"
-                                    type="submit"
-                                >
-                                    Удалить
-                                </button>
+                                <a href="{% url 'shop:product_edit' product.slug %}" class="product-page__button button button-edit">Редактировать</a>
+                                <form method="post" action="{% url 'shop:product_delete' product.slug %}">
+                                    {% csrf_token %}
+                                    <button class="product-page__button button button-delete">Удалить</button>
+                                </form>
                             </div>
                         {% endif %}    
                     </div>
                     <div class="product-page__body">
-                        <img 
-                            src="/images/catalog/product1.jpg" 
-                            alt="" 
-                            class="product-page__image"
-                            width="500" height="400" loading="lazy"
-                        >
-                        <div class="product-page__text">            
+                        {% if product.image %}
+                            <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-page__image" width="500" height="400" loading="lazy">
+                        {% else %}
+                            <img src="{% static 'images/image.png' %}" alt="{{ product.name }}" class="product-page__image">
+                        {% endif %}
+
+                        <div class="product-page__text">
+                            <div class="product-page__text-inner">
+                            <h1 class="product-page__title h2">{{ product.name }}</h1>
+                            <div class="product-page__categorie">
+                                <p>{{ product.get_category_display }}</p>
+                            </div>
+                            <div class="product-page__description">
+                                <p>{{ product.description|linebreaksbr }}</p>
+                            </div>
+                            </div>
+
+                            <div class="product-page__buy">
+                            <div class="product-page__price">
+                                <p>Цена: {{ product.price }} ₽</p>
+                            </div>
+                            {% if user.is_manager %}
+                                <form action="{% url 'shop:add_to_cart' product_id=product.pk %}" method="post">
+                                {% csrf_token %}
+                                <button class="product-page__button button button-cart" type="submit">Добавить в корзину</button>
+                                </form>
+                            {% else %}
+                                {# менеджер видит не корзину #}
+                            {% endif %}
+                        </div>
+                        <!-- <div class="product-page__text">            
                             <div class="product-page__text-inner">
                                 <h1 class="product-page__title h2">
                                     <p>Название товара</p>
@@ -62,7 +74,7 @@
                                     Добавить в корзину
                                 </button>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>

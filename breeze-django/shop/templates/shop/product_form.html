@@ -1,0 +1,83 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+
+{% block title %}{% if create %}Добавить товар{% else %}Редактировать товар{% endif %}{% endblock %}
+
+{% block content %}
+<main class="content">
+  <section class="section container section-blue">
+    <header class="section__header header-center">
+      <h1 class="section__title h2">{% if create %}Добавить товар{% else %}Редактировать товар{% endif %}</h1>
+    </header>
+
+    <div class="section__body">
+      <div class="product-form">
+        <div class="product-form__wrapper">
+          <form method="post" enctype="multipart/form-data" class="product-form__form">
+            <div class="product-form__body">
+              <ul class="product-form__list">
+                <li class="product-form__item">
+                  {% csrf_token %}
+                  {{ form.non_field_errors }}
+                  <div class="form-row">
+                    {{ form.name.label_tag }}<br>
+                    {{ form.name }}
+                    {{ form.name.errors }}
+                  </div>
+                </li>
+                <li class="product-form__item">
+                  <div class="form-row">
+                    {{ form.slug.label_tag }} (можно оставить пустым)<br>
+                    {{ form.slug }}
+                    {{ form.slug.errors }}
+                  </div>
+                </li>
+                <li class="product-form__item">
+                  <div class="form-row">
+                    {{ form.price.label_tag }}<br>
+                    {{ form.price }}
+                    {{ form.price.errors }}
+                  </div>  
+                </li>
+                <li class="product-form__item">
+                  <div class="form-row">
+                    {{ form.category.label_tag }}<br>
+                    {{ form.category }}
+                    {{ form.category.errors }}
+                  </div> 
+                </li>
+                <li class="product-form__item">
+                  <div class="form-row">
+                    {{ form.description.label_tag }}<br>
+                    {{ form.description }}
+                    {{ form.description.errors }}
+                  </div>
+                </li>
+                <li class="product-form__item">
+                  <div class="form-row">
+                    {{ form.image.label_tag }}<br>
+                    {% if form.instance and form.instance.image %}
+                      <img src="{{ form.instance.image.url }}" alt="" style="max-width:200px; display:block; margin-bottom:8px;">
+                    {% endif %}
+                    {{ form.image }}
+                    {{ form.image.errors }}
+                  </div>
+                </li>
+                <li class="product-form__item">
+                  <div class="form-row">
+                    {{ form.in_stock.label_tag }} {{ form.in_stock }}
+                  </div>
+                </li>
+              </ul>    
+            </div>
+            <div class="product-form__buttons">
+                <button type="submit" class="button button-add">{% if create %}Добавить{% else %}Сохранить{% endif %}</button>
+                <a href="{% url 'shop:catalog' %}" class="button button-white">Отмена</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+{% endblock %}

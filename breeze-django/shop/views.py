@@ -9,6 +9,9 @@ from .models import News
 from .forms import NewsForm
 from django.core.paginator import Paginator
 from django.db.models import Q
+from .models import Product
+from .forms import ProductForm
+from django.http import HttpResponseForbidden
 
 
 # BASE_DIR — верхняя папка проекта (breeze-django/)
@@ -126,8 +129,111 @@ def news_delete(request, pk):
 
 
 def catalog(request):
+    qs = Product.objects.all()
 
-    return render(request, 'shop/catalog.html')
+    # Фильтры GET
+    q = request.GET.get('q', '').strip()
+    category = request.GET.get('category', '')
+    price_min = request.GET.get('price_min')
+    price_max = request.GET.get('price_max')
+    sort = request.GET.get('sort')  # 'increase' (price desc), 'reduction' (price asc)
+
+    if q:
+        qs = qs.filter(Q(name__icontains=q) | Q(description__icontains=q))
+    if category and category != 'default':
+        # пришлёт значения 'mono', 'author', 'popular' — их используй в select value
+        qs = qs.filter(category=category)
+    if price_min:
+        try:
+            qs = qs.filter(price__gte=float(price_min))
+        except ValueError:
+            pass
+    if price_max:
+        try:
+            qs = qs.filter(price__lte=float(price_max))
+        except ValueError:
+            pass
+
+    if sort == 'increase':   # сначала дороже
+        qs = qs.order_by('-price')
+    elif sort == 'reduction': # сначала дешевле
+        qs = qs.order_by('price')
+    else:
+        qs = qs.order_by('-created_at')
+        
+
+    # пагинация
+    paginator = Paginator(qs, 9)  
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    context = {
+        'page_obj': page_obj,
+        'products': page_obj.object_list,  # удобство для шаблона
+        'paginator': paginator,
+        # сохраним текущие фильтры, чтобы form на шаблоне оставлял значения
+        'q': q,
+        'selected_category': category,
+        'price_min': price_min,
+        'price_max': price_max,
+        'sort': sort,
+    }
+    return render(request, 'shop/catalog.html', context)
+
+
+def product_detail(request, slug):
+    product = get_object_or_404(Product, slug=slug)
+    return render(request, 'shop/product-page.html', {'product': product})
+
+
+@login_required
+def product_create(request):
+    # Права: доступ менеджеру и админ (проверка через context processor — но в view повтрно)
+    user = request.user
+    role = getattr(user, 'profile', None) and user.profile.role
+    if not (user.is_superuser or role == 'manager'):
+        return HttpResponseForbidden("Недостаточно прав")
+
+    if request.method == 'POST':
+        form = ProductForm(request.POST, request.FILES)
+        if form.is_valid():
+            prod = form.save()
+            return redirect('shop:product_detail', slug=prod.slug)
+    else:
+        form = ProductForm()
+    return render(request, 'shop/product_form.html', {'form': form, 'create': True})
+
+
+@login_required
+def product_edit(request, slug):
+    user = request.user
+    role = getattr(user, 'profile', None) and user.profile.role
+    if not (user.is_superuser or role == 'manager'):
+        return HttpResponseForbidden("Недостаточно прав")
+
+    product = get_object_or_404(Product, slug=slug)
+    if request.method == 'POST':
+        form = ProductForm(request.POST, request.FILES, instance=product)
+        if form.is_valid():
+            prod = form.save()
+            return redirect('shop:product_detail', slug=prod.slug)
+    else:
+        form = ProductForm(instance=product)
+    return render(request, 'shop/product_form.html', {'form': form, 'product': product, 'create': False})
+
+
+@login_required
+def product_delete(request, slug):
+    user = request.user
+    role = getattr(user, 'profile', None) and user.profile.role
+    if not (user.is_superuser or role == 'manager'):
+        return HttpResponseForbidden("Недостаточно прав")
+
+    product = get_object_or_404(Product, slug=slug)
+    if request.method == 'POST':
+        product.delete()
+        return redirect('shop:catalog')
+    return render(request, 'shop/product_confirm_delete.html', {'product': product})
 
 
 @login_required
