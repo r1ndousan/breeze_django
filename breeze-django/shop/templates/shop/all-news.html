@@ -14,30 +14,28 @@
             </header>
             <div class="section__body">
                 <div class="all-news">
-                    <div class="all-news__selection">
-                                <div class="all-news__selection-inputs">
-                                    <label for="search" class="visually-hidden">Поиск</label>
-                                    <input 
-                                        type="text"
-                                        name="q"
-                                        class="all-news__input input"
-                                        id="search"
-                                        placeholder="Поиск"
-                                        value="{{ q }}"
-                                    >
-                                    <label for="date-select" class="visually-hidden"></label>
-                                    <select id="date-select" name="order" class="all-news__select select">
-                                        <option value="newest" {% if order == 'newest' or not order %}selected{% endif %}>Сначала новые</option>
-                                        <option value="oldest" {% if order == 'oldest' %}selected{% endif %}>Сначала старые</option>
-                                    </select>
-                                </div>
-                                    <button 
-                                        class="all-news__button button" 
-                                        type="submit"
-                                    >
-                                        Применить
-                                    </button>
+                    <!-- Форма фильтров: метод GET -->
+                    <form method="get" action="{% url 'shop:news_list' %}" class="all-news__selection">
+                    <div class="all-news__selection-inputs">
+                        <label for="search" class="visually-hidden">Поиск</label>
+                        <input
+                        type="text"
+                        name="q"
+                        id="search"
+                        class="all-news__input input"
+                        placeholder="Поиск"
+                        value="{{ q|default:'' }}"
+                        >
+
+                        <label for="order" class="visually-hidden">Сортировка</label>
+                        <select id="order" name="order" class="all-news__select select">
+                            <option value="newest" {% if order == 'newest' %}selected{% endif %}>Сначала новые</option>
+                            <option value="oldest" {% if order == 'oldest' %}selected{% endif %}>Сначала старые</option>
+                        </select>
                     </div>
+
+                    <button class="all-news__button button" type="submit">Применить</button>
+                    </form>
                     <div class="all-news__main">
                         <ul class="news__list">
                             {% for n in news_list %}
