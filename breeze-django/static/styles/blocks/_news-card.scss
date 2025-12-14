@@ -16,6 +16,13 @@
             overflow:hidden;
             width:500px;
             height:450px;
+
+            &--index {
+                position: relative;
+                overflow:hidden;
+                width:400px;
+                height:350px;
+            }
         }
 
         position: absolute;

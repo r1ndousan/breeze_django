@@ -83,92 +83,50 @@
             <div class="section__body">
                 <div class="news">
                     <div class="news__slider">
-                        <button 
-                            class="news__button button"
-                            type="button"
-                        >
-                            <
-                        </button>
-                        <ul class="news__list grid--1">
-                            <li class="news__item">
+                        <ul class="news__list--index">
+                            {% for n in latest_news %}
+                                <li class="news__item--index">
                                     <article class="news-card">
-                                        <img 
-                                            src="../static/images/news_1.jpg" 
-                                            alt="" 
-                                            class="news-card__image"
-                                            width="500" height="400" loading="lazy"
-                                        >
+                                        {# изображение: если объект — Django model с ImageField #}
+                                        {% if n.image and n.image.url %}
+                                        <div class="news-card__image-wrapper--index">
+                                            <img src="{{ n.image.url }}" alt="{{ n.title }}" class="news-card__image" width="500" height="400" loading="lazy">
+                                        </div>
+                                        {% elif n.image %}
+                                            {# n.image может быть строкой-путём из json: используем static #}
+                                            <img src="{% static n.image %}" alt="{{ n.title }}" class="news-card__image" width="500" height="400" loading="lazy">
+                                        {% else %}
+                                            <img src="{% static 'images/news_1.jpg' %}" alt="{{ n.title }}" class="news-card__image" width="500" height="400" loading="lazy">
+                                        {% endif %}
+
                                         <div class="news-card__body">
-                                            <h3 class="news-card__title">
-                                                <p>title</p>
-                                            </h3>
+                                            <h3 class="news-card__title">{{ n.title }}</h3>
+
                                             <div class="news-card__date">
-                                                <p><time datetime="10.12.2025">10.12.25</time></p>
+                                                <p><time datetime="{% if n.published_at %}{{ n.published_at|date:'Y-m-d' }}{% elif n.published_at %}{{ n.published_at }}{% endif %}">
+                                                    {% if n.published_at %}{{ n.published_at|date:"d.m.Y" }}{% elif n.published_at %}{{ n.published_at }}{% else %}—{% endif %}
+                                                </time></p>
                                             </div>
+
                                             <div class="news-card__description">
-                                                <p>descr</p>
+                                                <p>
+                                                    {% if n.content %}
+                                                        {{ n.content|truncatechars:120 }}
+                                                    {% else %}
+                                                        Краткое описание отсутствует.
+                                                    {% endif %}
+                                                </p>
                                             </div>
-                                            <a href="../static/news-page.html" class="news-card__link">
+                                                <a href="{% url 'shop:news_detail' n.id %}" class="news-card__link">Читать далее</a>
                                                 <span class="visually-hidden">Увидеть новость полностью</span>
                                             </a>
-                                        </div>   
+                                        </div>
                                     </article>
-                            </li>
-                            <li class="news__item">
-                                <article class="news-card">
-                                    <img 
-                                        src="../static/images/news_1.jpg" 
-                                        alt="" 
-                                        class="news-card__image"
-                                        width="500" height="400" loading="lazy"
-                                    >
-                                    <div class="news-card__body">
-                                        <h3 class="news-card__title">
-                                            <p>title</p>
-                                        </h3>
-                                        <div class="news-card__date">
-                                            <p><time datetime="10.12.2025">10.12.25</time></p>
-                                        </div>
-                                        <div class="news-card__description">
-                                            <p>descr</p>
-                                        </div>
-                                        <a href="/" class="news-card__link">
-                                            <span class="visually-hidden">Увидеть новость полностью</span>
-                                        </a>
-                                    </div>   
-                                </article>
-                            </li>
-                            <li class="news__item">
-                                <article class="news-card">
-                                    <img 
-                                        src="/images/news_1.jpg" 
-                                        alt="" 
-                                        class="news-card__image"
-                                        width="500" height="400" loading="lazy"
-                                    >
-                                    <div class="news-card__body">
-                                        <h3 class="news-card__title">
-                                            <p>title</p>
-                                        </h3>
-                                        <div class="news-card__date">
-                                            <p><time datetime="10.12.2025">10.12.25</time></p>
-                                        </div>
-                                        <div class="news-card__description">
-                                            <p>description</p>
-                                        </div>
-                                        <a href="/" class="news-card__link">
-                                            <span class="visually-hidden">Увидеть новость полностью</span>
-                                        </a>
-                                    </div>   
-                                </article>
-                            </li>
+                                </li>
+                            {% empty %}
+                                <li class="news__item">Новостей пока нет.</li>
+                            {% endfor %}
                         </ul>
-                        <button 
-                            class="news__button button"
-                            type="button"
-                        >
-                            >
-                        </button>
                     </div>    
                 </div>
             </div>

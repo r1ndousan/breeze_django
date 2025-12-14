@@ -587,9 +587,16 @@ h4, .h4 {
   align-items: center;
   gap: 50px;
 }
+.news__list--index {
+  display: flex;
+  column-gap: 50px;
+}
 .news__item {
   width: 500px;
   height: auto;
+}
+.news__item--index {
+  width: 400px;
 }
 
 .grid {
@@ -666,6 +673,12 @@ h4, .h4 {
   width: 500px;
   height: 450px;
 }
+.news-card__image-wrapper--index {
+  position: relative;
+  overflow: hidden;
+  width: 400px;
+  height: 350px;
+}
 .news-card__link {
   display: flex;
   justify-content: center;
@@ -718,7 +731,7 @@ h4, .h4 {
 
 .all-news {
   background: linear-gradient(var(--color-light-blue) 50%, var(--color-light) 50%);
-  padding: 0px 100px 100px;
+  padding: 0px 100px 60px;
 }
 .all-news__selection {
   display: flex;

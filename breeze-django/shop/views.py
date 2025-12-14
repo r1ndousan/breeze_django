@@ -24,7 +24,19 @@ def is_client_or_admin(user):
 
 
 def index(request):
-    return render(request, 'shop/index.html')
+    # Получаем три последние новости
+    latest_news = []
+    if News is not None:
+        # модель есть — используем ORM
+        latest_news = list(News.objects.filter(published_at__isnull=False).order_by('-published_at')[:3])
+
+    # остальные данные для главной — (products и т.п.)
+    # products = ...
+    context = {
+        'latest_news': latest_news,
+        # 'products': products,
+    }
+    return render(request, 'shop/index.html', context)
 
 
 def news_list(request):
@@ -45,7 +57,7 @@ def news_list(request):
         qs = qs.order_by('-published_at')
 
     # Пагинация (6 на страницу — поменяй по желанию)
-    paginator = Paginator(qs, 2)
+    paginator = Paginator(qs, 4)
     page_obj = paginator.get_page(page_number)
 
     # Сформируем базовую строку запроса без page, чтобы сохранять фильтры в ссылках
