@@ -1,7 +1,7 @@
 {% extends 'shop/base.html' %}
 {% load static %}
 
-{% block title %}Breeze — Товар{% endblock %}
+{% block title %}Breeze — {{ product.name }}{% endblock %}
 
 {% block content %}
     <main class="content">
@@ -9,7 +9,7 @@
             <div class="section__body">
                 <div class="product-page">
                     <div class="product-page__buttons">
-                         <a class="product-page__button button button-white" href="{% url 'shop:catalog' %}">Назад</a>
+                        <a class="product-page__button button button-white" href="{% url 'shop:catalog' %}">Назад</a>
                         {% if is_manager %}
                             <div class="product-page__buttons-admin">
                                 <a href="{% url 'shop:product_edit' product.slug %}" class="product-page__button button button-edit">Редактировать</a>
@@ -42,39 +42,26 @@
                             <div class="product-page__price">
                                 <p>Цена: {{ product.price }} ₽</p>
                             </div>
-                            {% if user.is_manager %}
-                                <form action="{% url 'shop:add_to_cart' product_id=product.pk %}" method="post">
-                                {% csrf_token %}
-                                <button class="product-page__button button button-cart" type="submit">Добавить в корзину</button>
+                            {% if user.is_superuser or user.profile.role == 'client' %}
+                            <div class="product-page__form-wrapper">
+                                <form action="{% url 'shop:add_to_cart' product.id %}" method="post" class="product-page__form">
+                                    {% csrf_token %}
+                                    <div class="product-page__form-quantity">
+                                        <label for="qty">Количество</label>
+                                        <input id="qty" name="qty" type="number" value="1" min="1" class="input" style="width:80px;">
+                                    </div>
+                                    <div class="product-page__form-button">
+                                        <input type="hidden" name="next" value="{% url 'shop:product_detail' product.slug %}">
+                                        <button type="submit" class="product-page__button button button-cart">Добавить в корзину</button>
+                                    </div>
                                 </form>
+                            {% elif not user.is_authenticated %}
+                                <p>Чтобы добавить товар в корзину, пожалуйста, <a href="{% url 'accounts:login' %}">войдите</a> или <a href="{% url 'accounts:register' %}">зарегистрируйтесь</a>.</p>
                             {% else %}
-                                {# менеджер видит не корзину #}
+                                <p>Вам не разрешено добавлять товар в корзину с этой ролью.</p>
                             {% endif %}
+                            </div>
                         </div>
-                        <!-- <div class="product-page__text">            
-                            <div class="product-page__text-inner">
-                                <h1 class="product-page__title h2">
-                                    <p>Название товара</p>
-                                </h1>
-                                <div class="product-page__categorie">
-                                    <p>Категория</p>
-                                </div>
-                                <div class="product-page__description">
-                                    <p>descriptiondescri ptiondes criptiondescriptiondescrip tiond escriptiondesc  riptiondes riptio ndes criptiond escriptiondescr iptiondescrip tiondescri ptionde   scrip  tiondes criptiondescri pt on des cription</p>
-                                </div>
-                            </div>
-                            <div class="product-page__buy">
-                                <div class="product-page__price">
-                                    <p>Цена: 10000</p>
-                                </div>
-                                <button 
-                                    class="product-page__button button button-cart"
-                                    type="submit"
-                                >
-                                    Добавить в корзину
-                                </button>
-                            </div>
-                        </div> -->
                     </div>
                 </div>
             </div>

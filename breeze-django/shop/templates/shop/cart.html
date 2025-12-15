@@ -1,6 +1,7 @@
 {% extends 'shop/base.html' %}
 {% load static %}
 
+
 {% block title %}Breeze — Корзина{% endblock %}
 
 {% block content %}
@@ -11,94 +12,64 @@
             </header>
             <div class="section__body">
                 <div class="cart">
+                    {% if items %}
                         <ul class="cart-cards_list">
-                            <li class="cart-cards_item">
-                                <div class="cart-card">
-                                    <img 
-                                        src="../static/images/catalog/product1.jpg" 
-                                        alt="" 
-                                        class="cart-card__image"
-                                        width="250" height="250" loading="lazy"
-                                    >
-                                    <div class="cart-card__info">
-                                        <div class="cart-card__info-left">
-                                            <h3 class="cart-card__title">Название товара</h3>
-                                            <p class="categorie">Категория</p>
-                                            <button 
-                                                class="cart-card__button button button-delete"
-                                                type="button"
-                                            >
-                                                Удалить
-                                            </button>
+                             {% for it in items %}
+                                <li class="cart-cards_item">
+                                    <div class="cart-card">
+                                        <div class="cart-card__image-wrapper">
+                                            <img src="{{ it.image }}" alt="{{ it.title }}" class="cart-card__image" width="250" height="250" loading="lazy">
                                         </div>
-                                        <ul class="cart-card__info-list">
-                                            <li class="cart-card__info-item">
-                                                <label for="price" class="cart-card__price">Цена, ₽</label>
-                                                <p id="price" class="cart-card__price">55555</p>
-                                            </li>
-                                            <li class="cart-card__info-item">
-                                                <label for="count" class="cart-card__count">Количество</label>
-                                                <input 
-                                                    type="numeric"
-                                                    class="cart-card__count-input input"
-                                                    id="count"
-                                                    placeholder="шт"
-                                                >
-                                            </li>
-                                            <li class="cart-card__info-item">
-                                                <label for="amount" class="cart-card__info-amount">Стоимость</label>
-                                                <p id="amount" class="cart-card__amount">65464</p>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="cart-cards_item">
-                                <div class="cart-card">
-                                    <img 
-                                        src="../static/images/catalog/product1.jpg" 
-                                        alt="" 
-                                        class="cart-card__image"
-                                        width="250" height="250" loading="lazy"
-                                    >
-                                    <div class="cart-card__info">
-                                        <div class="cart-card__info-left">
-                                            <h3 class="cart-card__title">Название товара</h3>
-                                            <p class="categorie">Категория</p>
-                                            <button 
-                                                class="cart-card__button button button-delete"
-                                                type="button"
-                                            >
-                                                Удалить
-                                            </button>
+                                        <div class="cart-card__info">
+                                            <div class="cart-card__info-left">
+                                                <h3 class="cart-card__title">{{ it.title }}</h3>
+                                                 {% comment %} если есть категория в product: {% if it.product.category %} {% endif %} {% endcomment %}
+                                                <p class="categorie">
+                                                    {% if it.product and it.product.category %}{{ it.product.category }}{% endif %}
+                                                </p>
+                                                <form action="{% url 'shop:remove_from_cart' it.product_id %}" method="post" style="display:inline">
+                                                    {% csrf_token %}
+                                                    <button class="cart-card__button button button-delete" type="submit">Удалить</button>
+                                                </form>
+                                            </div>
+                                            <ul class="cart-card__info-list">
+                                                <li class="cart-card__info-item">
+                                                    <label class="cart-card__price">Цена, ₽</label>
+                                                    <p class="cart-card__price">{{ it.price }}</p>
+                                                </li>
+                                                <li class="cart-card__info-item">
+                                                     <form action="{% url 'shop:update_cart' %}" method="post" class="cart-card__info-qty">
+                                                        {% csrf_token %}
+                                                        <label class="cart-card__qty">Количество, шт</label>
+                                                        <input type="hidden" name="product_id" value="{{ it.product_id }}">
+                                                        <input 
+                                                            name="qty"
+                                                            type="number"
+                                                            min="1"
+                                                            value="{{ it.qty }}"
+                                                            class="cart-card__count-input input"
+                                                        >
+                                                        <button class="button button-blue" type="submit">Обновить</button>
+                                                    </form>
+                                                </li>
+                                                <li class="cart-card__info-item">
+                                                    <label class="cart-card__info-amount">Стоимость, ₽</label>
+                                                    <p class="cart-card__amount">{{ it.line_total }}</p>
+                                                </li>
+                                            </ul>
                                         </div>
-                                        <ul class="cart-card__info-list">
-                                            <li class="cart-card__info-item">
-                                                <label for="price" class="cart-card__price">Цена, ₽</label>
-                                                <p id="price" class="cart-card__price">55555</p>
-                                            </li>
-                                            <li class="cart-card__info-item">
-                                                <label for="count" class="cart-card__count">Количество</label>
-                                                <input 
-                                                    type="numeric"
-                                                    class="cart-card__count-input input"
-                                                    id="count"
-                                                    placeholder="шт"
-                                                >
-                                            </li>
-                                            <li class="cart-card__info-item">
-                                                <label for="amount" class="cart-card__info-amount">Стоимость</label>
-                                                <p id="amount" class="cart-card__amount">65464</p>
-                                            </li>
-                                        </ul>
                                     </div>
-                                </div>
-                            </li>
+                                </li>
+                            {% endfor %}
                         </ul>
                         <div class="cart__summary">
                             <span>Итого:</span>
-                            <p>9999</p>
-                        </div>                   
+                            <p>  {{ total }}, ₽</p>
+                        </div>   
+                    {% else %}
+                        <p>Корзина пуста.</p>
+                        <p>Чтобы добавить товары, перейдите в <a href="{% url 'shop:catalog' %}">каталог</a>.</p>
+                    {% endif %}                
                 </div>
             </div>
         </section>
@@ -109,54 +80,47 @@
             </header>
             <div class="section__body">
                 <div class="delivery">
-                    <ul class="delivery__list">
-                        <li class="delivery__item">
-                            <label for="radio-courier" class="visually-hidden">Отправка курьером</label>
-                            <input id="radio-courier" type="radio" class="delivery__info-radio radio" name="delivery" value="courier">
-                            <h4 class="delivery__info-title">Курьер:</h4>
-                            <label for="address1" class="visually-hidden">Введите адрес</label>
-                            <input 
-                                type="text"
-                                class="delivery__info-input input"
-                                id="address1"
-                                placeholder="Введите адрес"
-                            >
-                            <p>Стоимость доставки: 500₽</p>
-                        </li>
-                        <li class="delivery__item">
-                            <label for="radio-mail" class="visually-hidden">Отправка почтой</label>
-                            <input id="radio-mail" type="radio" class="delivery__info-radio radio" name="delivery" value="mail">
-                            <h4 class="delivery__info-title">Почта:</h4>
-                            <label for="address2" class="visually-hidden">Введите адрес</label>
-                            <input 
-                                id="address2"
-                                type="text"
-                                class="delivery__info-input input"
-                                placeholder="Введите адрес"
-                            >
-                            <p>Стоимость доставки: 300₽</p>
-                        </li>
-                        <li class="delivery__item">
-                            <label for="radio-pickup" class="visually-hidden">Самовывоз</label>
-                            <input id="radio-pickup" type="radio" class="delivery__info-radio radio" name="delivery" value="pickup" checked required>
-                            <h4 class="delivery__info-title">Самовывоз:</h4>
-                            <address> 
-                                <p>
-                                    Адрес: 1234 Москва, ул. Ленина, д.1
-                                </p>
-                            </address>
-                        </li>
-                    </ul>
-                    <div class="delivery__button-order">
-                        <button 
-                            class="cart-card__button button button-order"
-                            type="submit"
-                        >
-                            Оформить заказ
-                        </button>
-                    </div> 
+                    {% if user.is_authenticated %}
+                        <form action="{% url 'shop:checkout' %}" method="post">
+                            {% csrf_token %}
+                            <ul class="delivery__list">
+                                <li class="delivery__item">
+                                    <input id="radio-courier" type="radio" name="delivery" value="courier">
+                                    <h4 class="delivery__info-title">Курьер:</h4>
+                                    <input type="text" name="address_courier" class="delivery__info-input input" placeholder="Введите адрес">
+                                    <p>Стоимость доставки: 500₽</p>
+                                </li>
+                                <li class="delivery__item">
+                                    <input id="radio-mail" type="radio" name="delivery" value="mail">
+                                    <h4 class="delivery__info-title">Почта:</h4>
+                                    <input type="text" name="address_mail" class="delivery__info-input input" placeholder="Введите адрес">
+                                    <p>Стоимость доставки: 300₽</p>
+                                </li>
+                                <li class="delivery__item">
+                                    <input id="radio-pickup" type="radio" name="delivery" value="pickup" checked>
+                                    <h4 class="delivery__info-title">Самовывоз:</h4>
+                                    <address>Адрес: 1234 Москва, ул. Ленина, д.1</address>
+                                </li>
+                            </ul>
+
+                            <div class="delivery__button-order">
+                                <button id="checkout-button" class="cart-card__button button button-order" type="button">Оформить заказ</button>
+                            </div>
+                        </form>
+                    {% else %}
+                            <p>Для использования корзины и оформления заказа войдите в аккаунт или <a href="{% url 'accounts:register' %}">зарегистрируйтесь</a>.</p>
+                    {% endif %}
                 </div>
             </div>
         </section>
+
+        <dialog id="order-modal" class="modal" aria-hidden="true" role="dialog" style="display:none;">
+            <div class="modal__backdrop"></div>
+            <div class="modal__dialog" role="document" aria-labelledby="order-modal-title">
+                <h2 id="order-modal-title">Заказ оформлен</h2>
+                <p>Ваш заказ успешно оформлен, вы можете проверить его статус на странице "Мои заказы"</p>
+                <button id="order-modal-ok" class="button">ОК</button>
+            </div>
+        </dialog>
     </main>
 {% endblock %}

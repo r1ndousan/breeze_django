@@ -32,6 +32,30 @@
                 align-items: center;
                 row-gap: 10px;
             }
+
+            &-qty {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                row-gap: 15px;
+            }
+        }
+
+        &__image {
+            &-wrapper {
+                position: relative;
+                overflow:hidden;
+                width:300px;
+                height:300px;
+            }
+
+            position: absolute;
+            top:50%;
+            left:50%;
+            transform:translate(-50%,-50%);
+            width:100%;
+            height:100%;
+            object-fit:cover;
         }
 
         &__count-input {
@@ -49,6 +73,7 @@
     &__summary {
         display: flex;
         justify-content: end;
+        column-gap: 10px;
         padding: 30px;
         font-size: 28px;
     }

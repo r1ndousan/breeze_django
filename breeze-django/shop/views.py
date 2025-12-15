@@ -12,6 +12,9 @@ from django.db.models import Q
 from .models import Product
 from .forms import ProductForm
 from django.http import HttpResponseForbidden
+from django.views.decorators.http import require_http_methods
+from decimal import Decimal
+from django.urls import reverse
 
 
 # BASE_DIR — верхняя папка проекта (breeze-django/)
@@ -23,7 +26,6 @@ def is_client_or_admin(user):
     if not user.is_authenticated:
         return False
     return user.is_superuser or getattr(user, 'profile', None) and user.profile.role == 'client'
-
 
 
 def index(request):
@@ -185,7 +187,6 @@ def product_detail(request, slug):
     product = get_object_or_404(Product, slug=slug)
     return render(request, 'shop/product-page.html', {'product': product})
 
-
 @login_required
 def product_create(request):
     # Права: доступ менеджеру и админ (проверка через context processor — но в view повтрно)
@@ -202,7 +203,6 @@ def product_create(request):
     else:
         form = ProductForm()
     return render(request, 'shop/product_form.html', {'form': form, 'create': True})
-
 
 @login_required
 def product_edit(request, slug):
@@ -221,7 +221,6 @@ def product_edit(request, slug):
         form = ProductForm(instance=product)
     return render(request, 'shop/product_form.html', {'form': form, 'product': product, 'create': False})
 
-
 @login_required
 def product_delete(request, slug):
     user = request.user
@@ -238,8 +237,118 @@ def product_delete(request, slug):
 
 @login_required
 @user_passes_test(is_client_or_admin)
-def cart(request):
-    return render(request, 'shop/cart.html')
+def cart_view(request):
+    """
+    Показывает корзину. (Доступный только клиент/админ — ты можешь заменить декоратор)
+    """
+    cart = _get_cart(request)
+    items, total = _cart_items_and_total(cart)
+    return render(request, 'shop/cart.html', {
+        'items': items,
+        'total': total,
+    })
+
+def _get_product_by_id(pid):
+    try:
+        return Product.objects.get(pk=int(pid))
+    except Exception:
+        return None
+
+# Утилиты (если нет — добавь)
+def _get_cart(request):
+    return request.session.get('cart', {})  # {product_id: qty, ...}
+
+def _save_cart(request, cart):
+    request.session['cart'] = cart
+    request.session.modified = True
+
+def update_cart(request):
+    """
+    Обновление количества одной позиции: ожидает product_id и qty в POST.
+    Можно отправлять несколько запросов для каждой позиции.
+    """
+    pid = request.POST.get('product_id')
+    if not pid:
+        return redirect('shop:cart')
+    try:
+        qty = int(request.POST.get('qty', 1))
+    except (ValueError, TypeError):
+        qty = 1
+    cart = _get_cart(request)
+    if qty <= 0:
+        cart.pop(str(pid), None)
+    else:
+        cart[str(pid)] = qty
+    _save_cart(request, cart)
+    return redirect('shop:cart')
+
+def _cart_items_and_total(cart):
+    """
+    Возвращает (items, total) где items = [{'product': product_obj_or_dict, 'qty': int, 'line_total': Decimal}, ...]
+    """
+    items = []
+    total = Decimal('0.00')
+    for pid_str, qty in cart.items():
+        prod = _get_product_by_id(pid_str)
+        if not prod:
+            continue
+        price = prod.price if hasattr(prod, 'price') else Decimal(str(prod.get('price', '0')))
+        qty = int(qty)
+        line_total = Decimal(price) * qty
+        # формируем безопасный URL для картинки: используем media (product.image.url) или static fallback
+        if getattr(prod, 'image', None):
+            try:
+                image_url = prod.image.url
+            except Exception:
+                image_url = static('images/image.png')
+        else:
+            image_url = static('images/image.png')
+        items.append({
+            'product': prod,
+            'product_id': str(prod.pk),
+            'title': prod.name,
+            'qty': qty,
+            'price': Decimal(price),
+            'line_total': line_total,
+            'image': image_url,
+        })
+        total += line_total
+    return items, total
+
+@require_http_methods(["POST"])
+def add_to_cart(request, product_id=None):
+    """
+    Добавить товар в корзину. Может принимать POST с 'product_id' и 'qty'.
+    Если вы вызываете через ссылку, используйте GET-safe view variant (не рекомендуется).
+    """
+    pid = product_id or request.POST.get('product_id')
+    if not pid:
+        return redirect('shop:catalog')
+    prod = _get_product_by_id(pid)
+    if not prod:
+        return redirect('shop:catalog')
+
+    try:
+        qty = int(request.POST.get('qty', 1))
+    except (ValueError, TypeError):
+        qty = 1
+    if qty < 1:
+        qty = 1
+
+    cart = _get_cart(request)
+    cart[str(prod.pk)] = int(cart.get(str(prod.pk), 0)) + qty
+    _save_cart(request, cart)
+    # редирект туда, откуда пришли, либо в корзину
+    next_url = request.POST.get('next') or request.META.get('HTTP_REFERER') or reverse('shop:cart')
+    return redirect(next_url)
+
+@require_http_methods(["POST"])
+def remove_from_cart(request, product_id):
+    cart = _get_cart(request)
+    cart.pop(str(product_id), None)
+    _save_cart(request, cart)
+
+    return redirect('shop:cart')
 
 
 def checkout(request):

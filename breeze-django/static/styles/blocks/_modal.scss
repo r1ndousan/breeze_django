@@ -1,0 +1,24 @@
+/* Modal */
+.modal {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1200;
+  
+  &__backdrop {
+    position: absolute;
+    inset: 0;
+  }
+  
+  &__dialog {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: var(--color-light);
+    padding: 24px;
+    z-index: 2;
+  }
+}

@@ -62,4 +62,14 @@
         margin-bottom: 50px;
         font-size: 35px;
     }
+
+    &__form {
+        &-wrapper {
+            padding-left: 50px;
+        }
+
+        display: flex;
+        flex-direction: column;
+        row-gap: 20px;
+    }
 }
