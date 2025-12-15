@@ -25,6 +25,7 @@ class NewsForm(forms.ModelForm):
             }),
         }
 
+
 class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
@@ -41,3 +42,9 @@ class ProductForm(forms.ModelForm):
             'category': forms.Select(attrs={'class': 'select'}),
             'in_stock': forms.CheckboxInput(),
         }
+
+
+class CheckoutForm(forms.Form):
+    address = forms.CharField(required=False, widget=forms.Textarea(attrs={'rows':2}))
+    delivery_type = forms.ChoiceField(choices=[('courier','Курьер'),('mail','Почта'),('pickup','Самовывоз')], initial='pickup')
+    payment_method = forms.ChoiceField(choices=[('card','Карта'),('cash','Наличные')], initial='card')

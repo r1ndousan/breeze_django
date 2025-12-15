@@ -1,4 +1,6 @@
+from django.conf import settings
 from django.db import models
+from decimal import Decimal
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.text import slugify
@@ -24,6 +26,7 @@ class News(models.Model):
 
 
 class Product(models.Model):
+
     CAT_MONO = 'mono'
     CAT_AUTHOR = 'author'
     CAT_POPULAR = 'popular'
@@ -59,3 +62,44 @@ class Product(models.Model):
                 counter += 1
             self.slug = slug
         super().save(*args, **kwargs)
+
+
+User = settings.AUTH_USER_MODEL
+
+class Order(models.Model):
+    STATUS_CHOICES = [
+        ('processing', 'В обработке'),
+        ('on_the_way', 'В пути'),
+        ('completed', 'Получен'),
+        ('cancelled', 'Отменён'),
+    ]
+    DELIVERY_CHOICES = [
+        ('courier', 'Курьер'),
+        ('mail', 'Почта'),
+        ('pickup', 'Самовывоз'),
+    ]
+
+    user = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL, related_name='orders')
+    created_at = models.DateTimeField(auto_now_add=True)
+    address = models.TextField(blank=True)  # может быть пуст для самовывоза
+    payment_method = models.CharField(max_length=50, default='card')  # можно расширить
+    delivery_type = models.CharField(max_length=20, choices=DELIVERY_CHOICES, default='pickup')
+    delivery_cost = models.DecimalField(max_digits=8, decimal_places=2, default=Decimal('0.00'))
+    total = models.DecimalField(max_digits=12, decimal_places=2, default=Decimal('0.00'))
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='processing')
+
+    def __str__(self):
+        return f"#{self.pk} — {self.user or 'Гость'} — {self.created_at.date()}"
+
+class OrderItem(models.Model):
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='items')
+    product = models.ForeignKey('shop.Product', null=True, blank=True, on_delete=models.SET_NULL)
+    name = models.CharField(max_length=255)
+    price = models.DecimalField(max_digits=10, decimal_places=2)  # цена на момент заказа
+    quantity = models.PositiveIntegerField(default=1)
+
+    def line_total(self):
+        return self.price * self.quantity
+
+    def __str__(self):
+        return f"{self.name} x{self.quantity}"

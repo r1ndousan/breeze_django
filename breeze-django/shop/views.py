@@ -9,12 +9,13 @@ from .models import News
 from .forms import NewsForm
 from django.core.paginator import Paginator
 from django.db.models import Q
-from .models import Product
-from .forms import ProductForm
+from .forms import ProductForm, CheckoutForm
 from django.http import HttpResponseForbidden
 from django.views.decorators.http import require_http_methods
 from decimal import Decimal
 from django.urls import reverse
+from .models import Order, OrderItem, Product
+
 
 
 # BASE_DIR — верхняя папка проекта (breeze-django/)
@@ -351,8 +352,104 @@ def remove_from_cart(request, product_id):
     return redirect('shop:cart')
 
 
-def checkout(request):
-    return render(request, 'shop/checkout.html')
+@login_required
+def checkout_view(request):
+    """
+    Оформление заказа. Ожидает POST (можно отправлять через fetch).
+    Берёт корзину из сессии: request.session['cart'] — словарь {product_id: qty}
+    """
+    cart = request.session.get('cart', {})
+    if not cart:
+        return redirect('shop:cart')
+
+    if request.method == 'POST':
+        form = CheckoutForm(request.POST)
+        if form.is_valid():
+            delivery_type = form.cleaned_data['delivery_type']
+            address = form.cleaned_data['address']
+            payment_method = form.cleaned_data['payment_method']
+
+            # delivery cost mapping
+            delivery_cost_map = {'courier': Decimal('500.00'), 'mail': Decimal('300.00'), 'pickup': Decimal('0.00')}
+            delivery_cost = delivery_cost_map.get(delivery_type, Decimal('0.00'))
+
+            # calculate total from cart
+            total = Decimal('0.00')
+            items_data = []
+            for pid_str, qty in cart.items():
+                try:
+                    product = Product.objects.get(pk=int(pid_str))
+                except Product.DoesNotExist:
+                    continue
+                price = product.price
+                line = price * int(qty)
+                total += line
+                items_data.append((product, product.name, price, int(qty)))
+
+            total_with_delivery = total + delivery_cost
+
+            # create order
+            order = Order.objects.create(
+                user=request.user,
+                address=address,
+                payment_method=payment_method,
+                delivery_type=delivery_type,
+                delivery_cost=delivery_cost,
+                total=total_with_delivery,
+            )
+
+            # create order items
+            for product, name, price, qty in items_data:
+                OrderItem.objects.create(
+                    order=order,
+                    product=product,
+                    name=name,
+                    price=price,
+                    quantity=qty
+                )
+
+            # очистить корзину
+            request.session['cart'] = {}
+            request.session.modified = True
+
+            # иначе редирект на страницу «мои заказы»
+            return redirect('shop:my_orders')
+    else:
+        form = CheckoutForm()
+
+    # если GET — показать страницу корзины с формой (можно редирект на cart)
+    return render(request, 'shop/checkout.html', {'form': form})
+
+@login_required
+def my_orders_view(request):
+    orders = Order.objects.filter(user=request.user).order_by('-created_at')
+    return render(request, 'shop/checkout.html', {'orders': orders})
+
+@login_required
+@user_passes_test(is_manager_or_admin)
+def orders_list_view(request):
+    orders = Order.objects.all().order_by('-created_at')
+    return render(request, 'shop/orders_list.html', {'orders': orders})
+
+@login_required
+def order_detail_view(request, pk):
+    order = get_object_or_404(Order, pk=pk)
+    # Клиент может смотреть только свои заказы; менеджер/админ — любые
+    if request.user != order.user and not is_manager_or_admin(request.user):
+        return HttpResponseForbidden()
+    return render(request, 'shop/order_detail.html', {'order': order})
+
+@login_required
+@user_passes_test(is_manager_or_admin)
+def order_update_status(request, pk):
+    order = get_object_or_404(Order, pk=pk)
+    if request.method == 'POST':
+        new_status = request.POST.get('status')
+        if new_status in dict(Order.STATUS_CHOICES):
+            order.status = new_status
+            order.save()
+        return redirect('shop:order_detail', pk=pk)
+    return redirect('shop:orders_list')
 
 
 @user_passes_test(is_manager_or_admin)

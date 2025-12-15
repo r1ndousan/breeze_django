@@ -81,9 +81,25 @@
             <div class="section__body">
                 <div class="delivery">
                     {% if user.is_authenticated %}
-                        <form action="{% url 'shop:checkout' %}" method="post">
+                        <form id="checkout-form">
                             {% csrf_token %}
-                            <ul class="delivery__list">
+                            <label><input type="radio" name="delivery" value="courier" data-cost="500" {% if form and form.initial.delivery_type == 'courier' %}checked{% endif %}> Курьер — 500₽</label>
+                            <label><input type="radio" name="delivery" value="mail" data-cost="300" {% if form and form.initial.delivery_type == 'mail' %}checked{% endif %}> Почта — 300₽</label>
+                            <label><input type="radio" name="delivery" value="pickup" data-cost="0" checked> Самовывоз — 0₽</label>
+
+                            <label for="address" class="visually-hidden">Адрес</label>
+                            <input id="address" name="address" type="text" placeholder="Адрес (если нужен)" class="input">
+
+                            <label for="payment" class="visually-hidden">Оплата</label>
+                            <select name="payment_method" id="payment" class="select">
+                                <option value="card">Карта</option>
+                                <option value="cash">Наличные</option>
+                            </select>
+
+                            <div class="cart__total">Итого: <span id="grand-total">{{ total }}</span> ₽</div>
+
+                            <button id="checkout-button" class="cart-card__button button button-order" type="button">Оформить заказ</button>
+                            <!-- <ul class="delivery__list">
                                 <li class="delivery__item">
                                     <input id="radio-courier" type="radio" name="delivery" value="courier">
                                     <h4 class="delivery__info-title">Курьер:</h4>
@@ -101,14 +117,14 @@
                                     <h4 class="delivery__info-title">Самовывоз:</h4>
                                     <address>Адрес: 1234 Москва, ул. Ленина, д.1</address>
                                 </li>
-                            </ul>
+                            </ul> -->
 
-                            <div class="delivery__button-order">
+                            <!-- <div class="delivery__button-order">
                                 <button id="checkout-button" class="cart-card__button button button-order" type="button">Оформить заказ</button>
-                            </div>
+                            </div> -->
                         </form>
                     {% else %}
-                            <p>Для использования корзины и оформления заказа войдите в аккаунт или <a href="{% url 'accounts:register' %}">зарегистрируйтесь</a>.</p>
+                        <p>Корзина пуста. <a href="{% url 'shop:catalog' %}">Перейти в каталог</a></p>
                     {% endif %}
                 </div>
             </div>
