@@ -4,77 +4,102 @@
 {% block title %}Breeze — Заказы{% endblock %}
 
 {% block content %}
-    <main class="content">
-        <section class="section container section-blue">
-            <header class="section__header header-center">
-                <h1 class="section__title h2">Заказы</h1>
-            </header>
-            <div class="section__body">
-                <div class="orders">
-                    <div class="order">
-                        <div class="order__info">
-                            <div class="order__info-card">
-                                <div><strong>ID заказа:</strong> {{ order.id }}</div>
-                                <div><strong>Дата заказа:</strong> {{ order.date }}</div>
-                                <div><strong>ID клиента:</strong> {{ order.client_id }}</div>
-                                <div><strong>E-mail клиента:</strong> {{ order.client_email }}</div>
-                                <div><strong>Адрес доставки:</strong> {{ order.address }}</div>
-                                <div><strong>Способ оплаты:</strong> {{ order.payment_method }}</div>
-                                <div><strong>Итого:</strong> {{ order.total }} ₽</div>
-                            </div>
-                            <div class="order__info-products">
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th>Название</th>
-                                            <th>Кол-во</th>
-                                            <th>Стоимость</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {% for item in order.items.all %}
-                                        <tr>
-                                            <td>{{ item.name }}</td>
-                                            <td>{{ item.quantity }}</td>
-                                            <td>{{ item.price }} ₽</td>
-                                        </tr>
-                                        {% empty %}
-                                        <tr>
-                                            <td colspan="3">Нет товаров</td>
-                                        </tr>
-                                        {% endfor %}
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        <div class="order__interactive">
-                            <div class="order__interactive-status">
-                                <label for="status" class="visually-hidden"></label>
-                                <span>Статус заказа:</span>
-                                <select id="status" class="order__select select">
-                                    <option value="default" selected disabled>Изменить статус</option>
-                                    <option value="cancelled">Отменен</option>
-                                    <option value="processing">В обработке</option>
-                                    <option value="on-the-way">В пути</option>
-                                    <option value="completed">Получен</option>
-                                </select>
-                                <button 
-                                    class="order-page__button button button-refresh button-blue"
-                                    type="submit"
-                                >
-                                    Обновить статус
-                                </button>
-                            </div>
-                            <button 
-                                class="order-page__button button button-delete"
-                                type="submit"
-                            >
-                                Удалить
-                            </button>
-                        </div>
+<main class="content">
+  <section class="section container section-blue">
+    <header class="section__header header-center">
+      <h1 class="section__title h2">Заказы</h1>
+    </header>
+
+    <div class="section__body">
+      <div class="orders-controls" style="margin-bottom:16px;">
+        <form method="get" class="orders-filter" style="display:flex; gap:8px; align-items:center;">
+          <label for="status">Фильтр по статусу:</label>
+          <select name="status" id="status" class="select">
+            <option value="">— Все —</option>
+            {% for val,label in status_choices %}
+              <option value="{{ val }}" {% if request.GET.status == val %}selected{% endif %}>{{ label }}</option>
+            {% endfor %}
+          </select>
+          <button type="submit" class="button">Применить</button>
+        </form>
+      </div>
+
+      <div class="orders-list">
+        {% if orders %}
+          <ul class="orders__list">
+            {% for order in orders %}
+              <li class="order" style="border:1px solid #e0e0e0; padding:12px; margin-bottom:12px;">
+                <div class="order__info" style="display:flex; justify-content:space-between; gap:12px; align-items:flex-start;">
+                  <div class="order__left">
+                    <div><strong>ID:</strong> {{ order.id }}</div>
+                    <div><strong>Клиент:</strong> 
+                      {% if order.user %}
+                        {{ order.user.get_full_name|default:order.user.username }} ({{ order.user.email }})
+                      {% else %}
+                        Гость
+                      {% endif %}
                     </div>
+                    <div><strong>Дата:</strong> {{ order.created_at|date:"d.m.Y H:i" }}</div>
+                    <div><strong>Адрес:</strong> {{ order.address|default:"—" }}</div>
+                    <div><strong>Итого:</strong> {{ order.total }} ₽</div>
+                    <div><strong>Доставка:</strong> {{ order.get_delivery_type_display }} (+{{ order.delivery_cost }} ₽)</div>
+                  </div>
+
+                  <div class="order__right" style="min-width:280px;">
+                    <div><strong>Статус:</strong> {{ order.get_status_display }}</div>
+
+                    {# Форма для смены статуса (менеджеру) #}
+                    <form method="post" action="{% url 'shop:order_update_status' order.id %}" style="margin-top:8px;">
+                      {% csrf_token %}
+                      <label for="status-{{ order.id }}" class="visually-hidden">Статус</label>
+                      <select id="status-{{ order.id }}" name="status" class="select">
+                        {% for val,label in status_choices %}
+                          <option value="{{ val }}" {% if order.status == val %}selected{% endif %}>{{ label }}</option>
+                        {% endfor %}
+                      </select>
+                      <button type="submit" class="button button-blue">Обновить статус</button>
+                    </form>
+
+                    {# Удаление заказа #}
+                    <form method="post" action="{% url 'shop:order_delete' order.id %}" style="margin-top:8px;">
+                      {% csrf_token %}
+                      <button class="button button-delete" type="submit" onclick="return confirm('Удалить заказ #{{ order.id }}?')">Удалить</button>
+                    </form>
+                  </div>
                 </div>
-            </div>
-        </section>
-    </main>
+
+                {# Таблица товаров заказа #}
+                <div style="margin-top:12px;">
+                  <table style="width:100%; border-collapse:collapse;">
+                    <thead>
+                      <tr>
+                        <th style="text-align:left; padding:6px;">Название</th>
+                        <th style="padding:6px;">Кол-во</th>
+                        <th style="padding:6px;">Стоимость</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for item in order.items.all %}
+                        <tr>
+                          <td style="padding:6px;">{{ item.product.name|default:item.name }}</td>
+                          <td style="padding:6px; text-align:center;">{{ item.quantity }}</td>
+                          <td style="padding:6px; text-align:right;">{{ item.price }} ₽</td>
+                        </tr>
+                      {% empty %}
+                        <tr><td colspan="3" style="padding:6px;">Нет товаров</td></tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+
+              </li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p>Заказов пока нет.</p>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+</main>
 {% endblock %}

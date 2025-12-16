@@ -456,12 +456,68 @@ def order_cancel_view(request, pk):
 
 @user_passes_test(is_manager_or_admin)
 def orders_list_view(request):
-    orders = Order.objects.all().order_by('-created_at')
-    return render(request, 'shop/orders.html', {'orders': orders})
+    """
+    Список всех заказов для менеджера.
+    Поддерживает фильтр по статусу: ?status=processing (или all / пусто)
+    Также можно фильтровать по q (по email или id) — опционально.
+    """
+    qs = Order.objects.all().order_by('-created_at')
 
+    status = request.GET.get('status', '')  # например 'processing', 'completed', 'cancelled', ''
+    q = request.GET.get('q', '').strip()
+
+    if status and status != 'all':
+        qs = qs.filter(status=status)
+
+    if q:
+        # попытаемся фильтровать по id или по email
+        if q.isdigit():
+            qs = qs.filter(pk=int(q))
+        else:
+            qs = qs.filter(client_email__icontains=q)  # или user__email__icontains
+
+
+    context = {
+        'orders': qs,
+        'status': status,
+        'q': q,
+        'status_choices': Order.STATUS_CHOICES,
+    }
+    return render(request, 'shop/orders.html', context)
+
+@login_required
 @user_passes_test(is_manager_or_admin)
-def orders(request):
-    return render(request, 'shop/orders.html')
+def order_update_status(request, pk):
+    """
+    Обновляет статус заказа (POST).
+    Ожидает поле 'status' в POST.
+    """
+    order = get_object_or_404(Order, pk=pk)
+    if request.method != 'POST':
+        return redirect('shop:orders_list')
+
+    new_status = request.POST.get('status')
+    valid_statuses = [s[0] for s in Order.STATUS_CHOICES]
+    if new_status not in valid_statuses:
+        # неправильно прислали — просто вернёмся назад
+        return redirect('shop:orders_list')
+
+    order.status = new_status
+    order.save()
+    return redirect(request.META.get('HTTP_REFERER') or reverse('shop:orders_list'))
+
+
+@login_required
+@user_passes_test(is_manager_or_admin)
+def order_delete_view(request, pk):
+    """
+    Удаление заказа (POST).
+    """
+    order = get_object_or_404(Order, pk=pk)
+    if request.method == 'POST':
+        order.delete()
+        return redirect(request.META.get('HTTP_REFERER') or reverse('shop:orders_list'))
+    return redirect('shop:orders_list')
 
 
 def contacts(request):

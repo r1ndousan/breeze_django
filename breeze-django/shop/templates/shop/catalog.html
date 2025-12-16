@@ -8,7 +8,7 @@
         <section class="section container section-blue">
             <header class="section__header header-center">
                 <h1 class="section__title h2">Каталог</h1>
-                {% if user.is_manager %}
+                {% if user.is_authenticated and user.is_superuser or user.is_authenticated and user.profile.role == 'manager' %}
                     <a href="{% url 'shop:product_create' %}" class="catalog__button button button-add">Добавить товар</a>
                 {% endif %}
             </header>
