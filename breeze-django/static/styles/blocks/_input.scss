@@ -3,6 +3,7 @@
     padding: 8px 30px;
     border: var(--border);
     border-radius: var(--border-radius);
+    min-width: 100px;
 
     &:hover {
         filter: brightness(0.9);
