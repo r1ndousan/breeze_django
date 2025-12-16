@@ -42,7 +42,7 @@
 
                                 {% if user.is_staff or user.is_superuser %}
                                     <li class="footer__menu-item">
-                                        <a href="{% url 'shop:orders' %}" class="footer__menu-link">Заказы</a>
+                                        <a href="{% url 'shop:orders_list' %}" class="footer__menu-link">Заказы</a>
                                     </li>
                                 {% endif %}
                             </ul>
