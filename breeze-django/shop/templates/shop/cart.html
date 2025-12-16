@@ -63,8 +63,7 @@
                             {% endfor %}
                         </ul>
                         <div class="cart__summary">
-                            <span>Итого:</span>
-                            <p>  {{ total }}, ₽</p>
+                            Подытог: <span id="subtotal">{{ total }}</span> ₽
                         </div>   
                     {% else %}
                         <p>Корзина пуста.</p>
@@ -84,26 +83,19 @@
                         <form method="post" action="{% url 'shop:order_create' %}">
                             {% csrf_token %}
                             <div class="delivery__list">
-                                <label><input type="radio" name="delivery" value="courier"> Курьер (500₽)</label>
-                                <label><input type="radio" name="delivery" value="mail"> Почта (300₽)</label>
-                                <label><input type="radio" name="delivery" value="pickup" checked> Самовывоз (0₽)</label>
+                                <label><input type="radio" name="delivery" value="pickup" checked> Самовывоз: Москва, ул. Ленина, д.1</label>
+                                <label><input type="radio" name="delivery" value="mail"> Почта: 300 ₽</label>
+                                <label><input type="radio" name="delivery" value="courier"> Курьер: 500 ₽</label>
+
+                                <label for="address" class="visually-hidden">Адрес</label>
+                                <input id="address" name="address" type="text" class="delivery__info-input input" placeholder="Адрес для доставки">
                             </div>
 
-                            <label for="address" class="visually-hidden">Адрес</label>
-                            <textarea name="address" id="address" class="input" placeholder="Введите адрес (если нужно)"></textarea>
+                            <div class="cart__summary">Итого: <strong id="grand-total">{{ total }}</strong> ₽</div>
 
-                            <label for="payment_method" class="visually-hidden">Оплата</label>
-                            <select name="payment_method" id="payment_method" class="select">
-                                <option value="card">Карта</option>
-                                <option value="cash">Наличные</option>
-                            </select>
-
-                            <div class="cart__summary">
-                                <span>Итого:</span>
-                                <p id="order-total">{{ total }} ₽</p> <!-- total вычисляется на сервере при рендере -->
+                            <div class="delivery__button-order">
+                                <button class="cart-card__button button button-order" type="submit">Оформить заказ</button>
                             </div>
-
-                            <button type="submit" class="button button-order">Оформить заказ</button>
                         </form>
                     {% else %}
                         <p>Корзина пуста. <a href="{% url 'shop:catalog' %}">Перейти в каталог</a></p>
@@ -123,4 +115,54 @@
             </dialog>
         {% endif %}
     </main>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const deliveryPrices = { pickup: 0, mail: 300, courier: 500 };
+  const subtotalEl = document.getElementById('subtotal');
+  const grandTotalEl = document.getElementById('grand-total');
+
+  function parseNumber(s){ return Number(String(s).replace(',', '.')) || 0; }
+
+  function updateGrandTotal() {
+    const subtotal = parseNumber(subtotalEl.textContent);
+    const chosen = document.querySelector('input[name="delivery"]:checked');
+    const delCost = chosen ? (deliveryPrices[chosen.value] || 0) : 0;
+    grandTotalEl.textContent = (subtotal + delCost).toFixed(2);
+  }
+
+  // меняем итог при смене доставки
+  document.querySelectorAll('input[name="delivery"]').forEach(r => {
+    r.addEventListener('change', updateGrandTotal);
+  });
+
+  // обновляем строки (если пользователь меняет qty локально) — НЕ синхронизировано с сервером здесь,
+  // если хочешь, можно отправлять update_cart на каждое изменение. Пока только обновление UI.
+  document.querySelectorAll('.cart-card__count-input').forEach(input => {
+    input.addEventListener('change', function () {
+      const pid = this.dataset.productId;
+      const qty = Number(this.value) || 1;
+      const lineEl = document.getElementById('line-' + pid);
+      const price = parseNumber(lineEl.textContent) / (qty || 1); // old hack — лучше перезапросить
+      // безопаснее: пересчитать, получив цену из DOM:
+      const priceEl = this.closest('.cart-card__info').querySelector('.cart-card__price');
+      const priceVal = parseNumber(priceEl.textContent);
+      lineEl.textContent = (priceVal * qty).toFixed(2);
+
+      // пересчёт подытога
+      let newSubtotal = 0;
+      document.querySelectorAll('.cart-card__amount').forEach(el => {
+        newSubtotal += parseNumber(el.textContent);
+      });
+      subtotalEl.textContent = newSubtotal.toFixed(2);
+      updateGrandTotal();
+    });
+  });
+
+  // initial update
+  updateGrandTotal();
+});
+</script>
 {% endblock %}

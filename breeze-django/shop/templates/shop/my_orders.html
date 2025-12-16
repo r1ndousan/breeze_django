@@ -23,34 +23,34 @@
                 <div><strong>Статус:</strong> {{ order.get_status_display }}</div>
               </div>
 
-              <div class="order__info-products">
-                <table>
-                  <thead>
-                    <tr><th>Название</th><th>Кол-во</th><th>Стоимость</th></tr>
-                  </thead>
-                  <tbody>
-                    {% for item in order.items.all %}
-                      <tr>
-                        <td>{{ item.name }}</td>
-                        <td>{{ item.quantity }}</td>
-                        <td>{{ item.price }} ₽</td>
-                      </tr>
-                    {% empty %}
-                      <tr><td colspan="3">Нет товаров</td></tr>
-                    {% endfor %}
-                  </tbody>
-                </table>
-              </div>
-
-              <div class="order__interactive">
-                <a href="{% url 'shop:order_detail' order.id %}" class="button">Посмотреть</a>
-
-                {% if order.status != 'completed' and order.status != 'cancelled' %}
-                  <form method="post" action="{% url 'shop:order_cancel' order.id %}">
-                    {% csrf_token %}
-                    <button class="button button-delete" type="submit">Отменить</button>
-                  </form>
-                {% endif %}
+              <div class="order__info-content">
+                  <div class="order__info-products">
+                    <table>
+                      <thead>
+                        <tr><th>Название</th><th>Кол-во</th><th>Стоимость</th></tr>
+                      </thead>
+                      <tbody>
+                        {% for item in order.items.all %}
+                          <tr>
+                            <td>{{ item.name }}</td>
+                            <td>{{ item.quantity }}</td>
+                            <td>{{ item.price }} ₽</td>
+                          </tr>
+                        {% empty %}
+                          <tr><td colspan="3">Нет товаров</td></tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+    
+                  <div class="order__interactive">
+                    {% if order.status != 'completed' and order.status != 'cancelled' %}
+                      <form method="post" action="{% url 'shop:order_cancel' order.id %}">
+                        {% csrf_token %}
+                        <button class="button button-delete" type="submit">Отменить</button>
+                      </form>
+                    {% endif %}
+                  </div>
               </div>
             </div>
           {% endfor %}
