@@ -21,12 +21,12 @@ urlpatterns = [
     path('cart/', views.cart_view, name='cart'),
     path('cart/update/', views.update_cart, name='update_cart'),
     path('cart/remove/<int:product_id>/', views.remove_from_cart, name='remove_from_cart'),
-    path('checkout/', views.checkout_view, name='checkout'),
     path('orders/my/', views.my_orders_view, name='my_orders'),
-    path('orders/', views.orders_list_view, name='orders_list'),  # менеджер
+    path('orders/', views.orders_list_view, name='orders_list'),  # для менеджера
+    path('order/create/', views.order_create, name='order_create'),
+    path('order/<int:pk>/cancel/', views.order_cancel_view, name='order_cancel'),
+    path('orders/my/', views.my_orders_view, name='my_orders'),
     path('order/<int:pk>/', views.order_detail_view, name='order_detail'),
-    path('order/<int:pk>/status/', views.order_update_status, name='order_update_status'),
-    path('orders/', views.orders, name='orders'),
     path('contacts/', views.contacts, name='contacts'),
 ]
 

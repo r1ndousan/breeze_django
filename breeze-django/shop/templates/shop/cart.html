@@ -81,47 +81,29 @@
             <div class="section__body">
                 <div class="delivery">
                     {% if user.is_authenticated %}
-                        <form id="checkout-form">
+                        <form method="post" action="{% url 'shop:order_create' %}">
                             {% csrf_token %}
-                            <label><input type="radio" name="delivery" value="courier" data-cost="500" {% if form and form.initial.delivery_type == 'courier' %}checked{% endif %}> Курьер — 500₽</label>
-                            <label><input type="radio" name="delivery" value="mail" data-cost="300" {% if form and form.initial.delivery_type == 'mail' %}checked{% endif %}> Почта — 300₽</label>
-                            <label><input type="radio" name="delivery" value="pickup" data-cost="0" checked> Самовывоз — 0₽</label>
+                            <div class="delivery__list">
+                                <label><input type="radio" name="delivery" value="courier"> Курьер (500₽)</label>
+                                <label><input type="radio" name="delivery" value="mail"> Почта (300₽)</label>
+                                <label><input type="radio" name="delivery" value="pickup" checked> Самовывоз (0₽)</label>
+                            </div>
 
                             <label for="address" class="visually-hidden">Адрес</label>
-                            <input id="address" name="address" type="text" placeholder="Адрес (если нужен)" class="input">
+                            <textarea name="address" id="address" class="input" placeholder="Введите адрес (если нужно)"></textarea>
 
-                            <label for="payment" class="visually-hidden">Оплата</label>
-                            <select name="payment_method" id="payment" class="select">
+                            <label for="payment_method" class="visually-hidden">Оплата</label>
+                            <select name="payment_method" id="payment_method" class="select">
                                 <option value="card">Карта</option>
                                 <option value="cash">Наличные</option>
                             </select>
 
-                            <div class="cart__total">Итого: <span id="grand-total">{{ total }}</span> ₽</div>
+                            <div class="cart__summary">
+                                <span>Итого:</span>
+                                <p id="order-total">{{ total }} ₽</p> <!-- total вычисляется на сервере при рендере -->
+                            </div>
 
-                            <button id="checkout-button" class="cart-card__button button button-order" type="button">Оформить заказ</button>
-                            <!-- <ul class="delivery__list">
-                                <li class="delivery__item">
-                                    <input id="radio-courier" type="radio" name="delivery" value="courier">
-                                    <h4 class="delivery__info-title">Курьер:</h4>
-                                    <input type="text" name="address_courier" class="delivery__info-input input" placeholder="Введите адрес">
-                                    <p>Стоимость доставки: 500₽</p>
-                                </li>
-                                <li class="delivery__item">
-                                    <input id="radio-mail" type="radio" name="delivery" value="mail">
-                                    <h4 class="delivery__info-title">Почта:</h4>
-                                    <input type="text" name="address_mail" class="delivery__info-input input" placeholder="Введите адрес">
-                                    <p>Стоимость доставки: 300₽</p>
-                                </li>
-                                <li class="delivery__item">
-                                    <input id="radio-pickup" type="radio" name="delivery" value="pickup" checked>
-                                    <h4 class="delivery__info-title">Самовывоз:</h4>
-                                    <address>Адрес: 1234 Москва, ул. Ленина, д.1</address>
-                                </li>
-                            </ul> -->
-
-                            <!-- <div class="delivery__button-order">
-                                <button id="checkout-button" class="cart-card__button button button-order" type="button">Оформить заказ</button>
-                            </div> -->
+                            <button type="submit" class="button button-order">Оформить заказ</button>
                         </form>
                     {% else %}
                         <p>Корзина пуста. <a href="{% url 'shop:catalog' %}">Перейти в каталог</a></p>
@@ -130,13 +112,15 @@
             </div>
         </section>
 
-        <dialog id="order-modal" class="modal" aria-hidden="true" role="dialog" style="display:none;">
-            <div class="modal__backdrop"></div>
-            <div class="modal__dialog" role="document" aria-labelledby="order-modal-title">
-                <h2 id="order-modal-title">Заказ оформлен</h2>
-                <p>Ваш заказ успешно оформлен, вы можете проверить его статус на странице "Мои заказы"</p>
-                <button id="order-modal-ok" class="button">ОК</button>
-            </div>
-        </dialog>
+        {% if created %}
+            <dialog id="order-modal" class="modal" aria-hidden="true" role="dialog" style="display:none;">
+                <div class="modal__backdrop"></div>
+                <div class="modal__dialog" role="document" aria-labelledby="order-modal-title">
+                    <h2 id="order-modal-title">Заказ оформлен</h2>
+                    <p>Ваш заказ успешно оформлен, вы можете проверить его статус на странице "Мои заказы"</p>
+                    <button id="order-modal-ok" class="button">ОК</button>
+                </div>
+            </dialog>
+        {% endif %}
     </main>
 {% endblock %}

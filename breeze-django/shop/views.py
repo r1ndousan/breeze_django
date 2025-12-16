@@ -352,105 +352,112 @@ def remove_from_cart(request, product_id):
     return redirect('shop:cart')
 
 
+DELIVERY_PRICES = {
+    'courier': Decimal('500.00'),
+    'mail': Decimal('300.00'),
+    'pickup': Decimal('0.00'),
+}
+
 @login_required
-def checkout_view(request):
+def order_create(request):
     """
-    Оформление заказа. Ожидает POST (можно отправлять через fetch).
-    Берёт корзину из сессии: request.session['cart'] — словарь {product_id: qty}
+    Создаёт заказ из корзины (request.session['cart']) по POST.
+    Доступен только авторизованным клиентам.
     """
+    if request.method != 'POST':
+        return redirect('shop:cart')
+
     cart = request.session.get('cart', {})
     if not cart:
         return redirect('shop:cart')
 
-    if request.method == 'POST':
-        form = CheckoutForm(request.POST)
-        if form.is_valid():
-            delivery_type = form.cleaned_data['delivery_type']
-            address = form.cleaned_data['address']
-            payment_method = form.cleaned_data['payment_method']
+    # Получаем данные формы (name полей в cart.html должны совпадать)
+    delivery_type = request.POST.get('delivery', 'pickup')
+    address = request.POST.get('address', '').strip()
+    payment_method = request.POST.get('payment_method', 'card')
 
-            # delivery cost mapping
-            delivery_cost_map = {'courier': Decimal('500.00'), 'mail': Decimal('300.00'), 'pickup': Decimal('0.00')}
-            delivery_cost = delivery_cost_map.get(delivery_type, Decimal('0.00'))
+    delivery_cost = DELIVERY_PRICES.get(delivery_type, Decimal('0.00'))
 
-            # calculate total from cart
-            total = Decimal('0.00')
-            items_data = []
-            for pid_str, qty in cart.items():
-                try:
-                    product = Product.objects.get(pk=int(pid_str))
-                except Product.DoesNotExist:
-                    continue
-                price = product.price
-                line = price * int(qty)
-                total += line
-                items_data.append((product, product.name, price, int(qty)))
+    # Создаём заказ
+    order = Order.objects.create(
+        user=request.user,
+        address=address,
+        payment_method=payment_method,
+        delivery_type=delivery_type,
+        delivery_cost=delivery_cost,
+        total=Decimal('0.00'),  # пока 0 — потом обновим
+        status='processing',
+    )
 
-            total_with_delivery = total + delivery_cost
+    total = Decimal('0.00')
+    # Создаём позиции заказа из корзины; cart: {product_id: qty}
+    for pid_str, qty in cart.items():
+        try:
+            product = Product.objects.get(pk=int(pid_str))
+        except (Product.DoesNotExist, ValueError):
+            continue
+        qty_i = int(qty)
+        price = Decimal(str(product.price))
+        OrderItem.objects.create(
+            order=order,
+            product=product,
+            name=product.name,
+            price=price,
+            quantity=qty_i,
+        )
+        total += price * qty_i
 
-            # create order
-            order = Order.objects.create(
-                user=request.user,
-                address=address,
-                payment_method=payment_method,
-                delivery_type=delivery_type,
-                delivery_cost=delivery_cost,
-                total=total_with_delivery,
-            )
+    total += delivery_cost
+    order.total = total
+    order.save()
 
-            # create order items
-            for product, name, price, qty in items_data:
-                OrderItem.objects.create(
-                    order=order,
-                    product=product,
-                    name=name,
-                    price=price,
-                    quantity=qty
-                )
+    # Очистить корзину
+    request.session['cart'] = {}
+    request.session.modified = True
 
-            # очистить корзину
-            request.session['cart'] = {}
-            request.session.modified = True
+    # Редирект на "мои заказы" с флагом ?created=1 для показа модалки
+    return redirect(reverse('shop:my_orders') + '?created=1')
 
-            # иначе редирект на страницу «мои заказы»
-            return redirect('shop:my_orders')
-    else:
-        form = CheckoutForm()
-
-    # если GET — показать страницу корзины с формой (можно редирект на cart)
-    return render(request, 'shop/checkout.html', {'form': form})
 
 @login_required
 def my_orders_view(request):
+    """
+    Список заказов текущего пользователя.
+    """
     orders = Order.objects.filter(user=request.user).order_by('-created_at')
-    return render(request, 'shop/checkout.html', {'orders': orders})
+    created = request.GET.get('created')  # если пришёл ?created=1 — покажем модалку
+    return render(request, 'shop/my_orders.html', {'orders': orders, 'created': created})
 
-@login_required
-@user_passes_test(is_manager_or_admin)
-def orders_list_view(request):
-    orders = Order.objects.all().order_by('-created_at')
-    return render(request, 'shop/orders_list.html', {'orders': orders})
 
 @login_required
 def order_detail_view(request, pk):
     order = get_object_or_404(Order, pk=pk)
-    # Клиент может смотреть только свои заказы; менеджер/админ — любые
+    # только владелец заказа или менеджер/админ могут смотреть
     if request.user != order.user and not is_manager_or_admin(request.user):
         return HttpResponseForbidden()
     return render(request, 'shop/order_detail.html', {'order': order})
 
-@login_required
-@user_passes_test(is_manager_or_admin)
-def order_update_status(request, pk):
-    order = get_object_or_404(Order, pk=pk)
-    if request.method == 'POST':
-        new_status = request.POST.get('status')
-        if new_status in dict(Order.STATUS_CHOICES):
-            order.status = new_status
-            order.save()
-        return redirect('shop:order_detail', pk=pk)
-    return redirect('shop:orders_list')
 
+@login_required
+def order_cancel_view(request, pk):
+    """
+    Отмена заказа (меняет статус на 'cancelled'), доступна владельцу заказа и менеджеру/админу.
+    """
+    order = get_object_or_404(Order, pk=pk)
+    if request.user != order.user and not is_manager_or_admin(request.user):
+        return HttpResponseForbidden()
+
+    if request.method == 'POST':
+        if order.status not in ('completed', 'cancelled'):
+            order.status = 'cancelled'
+            order.save()
+    return redirect('shop:my_orders')
+
+
+@user_passes_test(is_manager_or_admin)
+def orders_list_view(request):
+    orders = Order.objects.all().order_by('-created_at')
+    return render(request, 'shop/orders.html', {'orders': orders})
 
 @user_passes_test(is_manager_or_admin)
 def orders(request):
