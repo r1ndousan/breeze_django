@@ -999,7 +999,7 @@ h4, .h4 {
 .order {
   display: flex;
   justify-content: space-between;
-  width: 70%;
+  min-width: 70%;
   column-gap: 40px;
   padding: 50px;
   background-color: var(--color-light);
@@ -1038,6 +1038,15 @@ h4, .h4 {
   flex-direction: column;
   justify-content: space-between;
   row-gap: 40px;
+}
+.order__info-extra {
+  display: flex;
+  flex-direction: column;
+  row-gap: 40px;
+}
+.order__buttons {
+  display: flex;
+  flex-direction: column;
 }
 .order__interactive {
   display: flex;
