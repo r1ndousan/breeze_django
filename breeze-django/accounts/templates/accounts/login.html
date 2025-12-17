@@ -15,9 +15,9 @@
         <form method="post" class="log-in__form" novalidate>
           {% csrf_token %}
           <h2 class="log-in__title">Войти в аккаунт</h2>
-          {% for message in messages %}
-            <div class="alert">{{ message }}</div>
-          {% endfor %}
+          {% if error %}
+            <div class="form-error">{{ error }}</div>
+          {% endif %}
           <div class="log-in__fields">
             {{ form.non_field_errors }}
             <ul class="log-in__list">
