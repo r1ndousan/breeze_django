@@ -4,6 +4,7 @@ from decimal import Decimal
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.text import slugify
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 class News(models.Model):
     title = models.CharField("Заголовок", max_length=255)
@@ -96,7 +97,10 @@ class OrderItem(models.Model):
     product = models.ForeignKey('shop.Product', null=True, blank=True, on_delete=models.SET_NULL)
     name = models.CharField(max_length=255)
     price = models.DecimalField(max_digits=10, decimal_places=2)  # цена на момент заказа
-    quantity = models.PositiveIntegerField(default=1)
+    quantity = models.PositiveIntegerField(
+        default=1,
+        validators=[MinValueValidator(1), MaxValueValidator(100)]
+    )
 
     def line_total(self):
         return self.price * self.quantity

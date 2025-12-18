@@ -275,6 +275,10 @@ def update_cart(request):
         qty = int(request.POST.get('qty', 1))
     except (ValueError, TypeError):
         qty = 1
+    if qty < 1:
+        qty = 1
+    if qty > 100:
+        qty = 100
     cart = _get_cart(request)
     if qty <= 0:
         cart.pop(str(pid), None)
@@ -335,6 +339,8 @@ def add_to_cart(request, product_id=None):
         qty = 1
     if qty < 1:
         qty = 1
+    if qty > 100:
+        qty = 100
 
     cart = _get_cart(request)
     cart[str(prod.pk)] = int(cart.get(str(prod.pk), 0)) + qty
